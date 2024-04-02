@@ -1,7 +1,7 @@
 ---
 title: "GTA Shelter System - Population in Crisis"
 author: "Voices 4 Unhoused Liberation"
-date: "2024-04-01"
+date: "2024-04-02"
 output:
   html_document: default
 links:
@@ -323,7 +323,7 @@ The chronic lack of safe and affordable housing is largely the result of failed 
 
 ## About DSOSO and Shelter Capacity  
 &nbsp; &nbsp; 
-Information in this report is based on **<a class="one" href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity/">Daily Shelter Overnight Service Occupancy</a>** (**DSOSO**) records that are available for download from the City of Toronto's **<a class="one" href="https://open.toronto.ca/">Open Data Portal</a>**. The data maintained here provides a brief glimpse of some basic demographic features of the **G**reater **T**oronto **A**rea (**GTA**) Shelter population as well as the administrative details of the Shelter System (**Table 1.**).<br>
+Information in this report is based on **<a class="one" href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity/">Daily Shelter Overnight Service Occupancy</a>** (**DSOSO**) records that are available for download from the City of Toronto's **<a class="one" href="https://open.toronto.ca/">Open Data Portal</a>**. The data presented here, by the **<a class="one" href="https://www.unhousedliberation.ca/">Voices 4 Unhoused Liberation</a>**, provides a brief glimpse of some basic demographic features of the **G**reater **T**oronto **A**rea (**GTA**) Shelter population as well as administrative details of the regions' Shelter System itself (**Table 1.**).<br>
 &nbsp; &nbsp; According to these records **Funding Capacity** refers to the "*number of beds or rooms that a program is intended* [funded] *to provide*".**<sup>2</sup>** Although there may be a number of reasons why beds or rooms may be temporarily out of service (e.g. repairs, renovations, outbreaks, or pest control) these reasons are not reported and therefore can not be verified (i.e. lacks transparency). The so called **Actual Capacity** refers to the "*number of beds or rooms in service and showing as <u>available for occupancy</u> in the Shelter Management Information System at time of reporting.*" This latter measure is touted as being "*a more effective capacity measure to assess program occupancy rates*". Clearly the number of <u>unavailable</u> rooms or beds (**Note:** **# UNAVAILABLE BEDS** = **Capacity Funding Bed** - **Capacity Actual Bed**) represents the number of rooms/beds that the Service provider has been given funding for, but have decided <u>not</u> to use for unknown reasons (i.e. not reported).
 
 <br>
@@ -405,6 +405,8 @@ Information in this report is based on **<a class="one" href="https://open.toron
 <br>
 
 <div align=center>
+## Figure 1: GTA Shelter Population
+### (Period: 2021/01/01 - 2024/03/29)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.align='center'}
 ### ***********************************************************
 ### ********** GRAPH 1 - TOTAL #s vs TIME line graph **********
@@ -421,8 +423,7 @@ plot.ResSum <- ggplot(df3NAtotals) +
   aes(x = OCCUPANCY_DATE, y = sum_Users) +
   geom_line(colour = "darkblue") +
   labs(x = "Date",
-       y = "Total Occupancy # (counts)",
-       title = "Figure 1: GTA Shelter Population (Period: 2021/01/01 - 2024/03/29)") +
+       y = "Total Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -439,12 +440,14 @@ plotResSumly
 ```
 
 </div>
-**Figure 1. Total Shelter Population within the Greater Toronto Area (GTA).** The total number of shelter users for each <u>recorded</u> **Occupancy Date** were plotted for the period of 2021-01-01 to 2024-03-29. The number of shelter users have increased by more than 50% over this time span. These numbers are obviously an underestimate of the "*true*" demand for these types of service given that there are many more homeless individuals who are not accounted for by these records.
+**Figure 1. Total Shelter Population within the Greater Toronto Area (GTA).** The total number of shelter users for each <u>recorded</u> **Occupancy Date** were plotted for the period of 2021-01-01 to 2024-03-29. The number of shelter users have increased by more than 60% over this time span. These numbers are obviously an underestimate of the "*true*" demand for these types of services given the many other homeless individuals who are not accounted for by these records.
 
 <br>
 <br>
 
 <div align=center>
+## Figure 2: GTA Shelter Population
+### (Regional Numbers)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### *************************************************************
 ### ********** GRAPH 2 - TOTAL # vs TIME (CITY FACETS) **********
@@ -462,8 +465,7 @@ plotCT <- df3NAcity %>% filter(!(CITY %in% "")) %>%
   aes(x = OCCUPANCY_DATE, y = sum_Users, group = CITY) +
   geom_line(colour = "darkblue") +
   labs(x = "Date",
-       y = "Total Occupancy # (counts)",
-       title = "Figure 2: GTA Shelter Population (Regional Populations)") +
+       y = "Total Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -481,12 +483,14 @@ plotCTly
 
 </div>
 
-**Figure 2. Shelter Population per GTA region.** The total number of shelter users for each region within the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) were plotted for the time period of 2021-01-01 to 2024-03-29. The disparity in the number of shelter users per region shows that the vast majority of shelter users today are being housed within Toronto and North York (see Table below).
+**Figure 2. Shelter Population per GTA region.** The total number of shelter users for each region of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) were plotted for the indicated time period (2021-01-01 to 2024-03-29). The disparity in the number of shelter users per region shows that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph below).
 
 <br>
 <br>
 
 <div align=center>
+## Figure 3: GTA Shelter Population
+### (Regional Numbers: 2024-03-29)
 ```{r echo=FALSE, message=FALSE, warning=FALSE,}
 ### *********************************************************
 ### ********** GRAPH 3 - BAR GRAPH TOTAL # vs CITY **********
@@ -504,8 +508,7 @@ plotCityTots <- ggplot(CityTots) +
   aes(x = CITY, y = sum_Users) +
   geom_col(fill = "darkblue") +
   labs(x = "GTA Region", 
-       y = "Total Occupancy # (counts)",
-       title = "Figure 3: GTA Homeless Shelter Population (Region, 2024-03-29)") +
+       y = "Total Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -526,6 +529,8 @@ plotCityTotsly
 <br>
 
 <div align=center>
+## Figure 4: GTA Shelter Population
+### (Shelter Sector Numbers)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### ***************************************************************
 ### ********** GRAPH 4 - TOTAL # vs TIME (SECTOR FACETS) **********
@@ -543,8 +548,7 @@ plotSector <- df3NAsector %>% filter(!(SECTOR %in% "")) %>%
   aes(x = OCCUPANCY_DATE, y = sum_Users, group = SECTOR) +
   geom_line(colour = "darkblue") +
   labs(x = "Date",
-       y = "Total Occupancy # (counts)",
-       title = "Figure 4: GTA Shelter Population (Shelter Sector Populations)") +
+       y = "Total Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -562,12 +566,14 @@ plotSectorly
 
 </div>
 
-**Figure 4. Homeless Population Demographics within the GTA Region.** The above graph looks at the **GTA** homeless population through the lens of common demographic variables (e.g. gender, family status). All of the designated groups (i.e. **men**, **women**, **families**, **Youth** and **Mixed adults**) have been rapidly increasing in number within the shelter system over the last 3 years. However, **Youth** and **Mixed adult** populations have shown some considerable fluctuations in numbers during the latter part of this time period. 
+**Figure 4. Homeless Population Demographics within the GTA Region.** The above graph looks at some common demographic variables of the **GTA** homeless population. The number of individuals within each of these designated groups (i.e. **men**, **women**, **families**, **Youth** and **Mixed adults**) have been rapidly increasing within the shelter system over the last 3 years. The **Youth** and **Mixed adult** populations also show considerable fluctuations in their numbers over the latter part of this time period. 
 
 <br>
 <br>
 
 <div align=center>
+## Figure 5: GTA Shelter Population
+### (Program Model Numbers)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, out.width='100%', fig.align='center'}
 ### ****************************************************************
 ### ******* GRAPH 5 - TOTAL # vs TIME (PROGRAM MODEL FACETS) *******
@@ -591,8 +597,7 @@ plotPMtotals <- df3NAprogmodel.noNA %>% filter(!(PROGRAM_MODEL %in% "")) %>%
   aes(x = OCCUPANCY_DATE, y = sum_Users, group = PROGRAM_MODEL) +
   geom_line(colour = "darkblue") +
   labs(x = "Date",
-       y = "Total Occupancy # (counts)",
-       title = "Fugure 5: GTA Shelter Population (Program Model Populations)") +
+       y = "Total Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -617,6 +622,8 @@ plotPMtotalsly
 <br>
 
 <div align=center>
+## Figure 6: GTA Shelter Population
+### (Service Type Numbers)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, out.width='100%', fig.align='center'}
 ### ***************************************************************
 ### ******* GRAPH 6 - TOTAL # vs TIME (SERVICE TYPE FACETS) *******
@@ -641,8 +648,7 @@ plotSTtotals <- df3NAservtype.noNA %>% filter(!(SERVICE_TYPE %in% "")) %>%
   aes(x = OCCUPANCY_DATE, y = sum_Users, group = SERVICE_TYPE) +
   geom_line(colour = "darkblue") +
   labs(x = "Date",
-       y = "Total Occupancy # (counts)",
-       title = "Figure 6: GTA Shelter Population (Service Type Population)") +
+       y = "Total Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -661,12 +667,14 @@ plotSTtotalsly
 
 </div>
 
-**Figure 6. Homeless Overnight Service Types within the GTA.** The region's homeless population can access different types of overnight services. The seven main **Shelter Types** are **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. Although there are additional **Service Types** offered, specifically **(viii) Top Bunk Contingency Spaces** and **(ix) Alternative Space Protocol**, these are ill-defined and very few in number. As of March 29<sup>th</sup> 2024 (latest numbers) the vast majority of **Service Types** are "*reactionary*" or emergency-styled **Shelters** (4867 of 9704, or 50.15%) and **Motel/Hotel** (4062 of 9704, or 41.86%) services. Unfortunately, **Interim** and **Transitional Housing** programs that ultimately lead to <u>permanent</u> housing are virtually non-existent.
+**Figure 6. Homeless Overnight Service Types within the GTA.** The region's homeless population can access different types of overnight services. The seven main **Service Types** are **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. Although there are additional **Service Types** offered, specifically **(viii) Top Bunk Contingency Spaces** and **(ix) Alternative Space Protocol**, these are ill-defined and very few in number. As of March 29<sup>th</sup> 2024 (latest numbers) the vast majority of **Service Types** are "*reactionary*" or emergency-styled **Shelters** (4867 of 9704, or 50.15%) and **Motel/Hotel** (4062 of 9704, or 41.86%) services. Unfortunately, **Interim** and **Transitional Housing** programs that ultimately lead to <u>permanent</u> housing are virtually non-existent.
 
 <br>
 <br>
 
 <div align=center>
+## Figure 7: GTA Shelter Population
+### (Program Area Numbers)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### ***************************************************************
 ### ******* GRAPH 7 - TOTAL # vs TIME (PROGRAM AREA FACETS) *******
@@ -687,8 +695,7 @@ plotdf3NAPA <- df3NAPA.noNA %>% filter(!(PROGRAM_AREA %in% "")) %>%
   aes(x = OCCUPANCY_DATE, y = sum_Users) +
   geom_line(colour = "darkblue") +
   labs(x = "Date",
-       y = "Occupancy # (counts)",
-       title = "Figure 7: GTA Shelter Population (Program Area Populations)") +
+       y = "Occupancy # (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -707,12 +714,14 @@ plotdf3NAPAly
 
 </div>
 
-**Figure 7. Homeless Program Area within the GTA.** Overnight services that deal with the region's homeless population can be categorized as either: **(i) Base Shelter**, **(ii) Base Program - Refugee**, **(iii) Temporary Refugee Response**, **(iv) COVID-19 Response**, or **(v) Winter Response**. These 5 program services are obviously regular (i.e. year-round) or temporary in nature. The current refugee situation (i.e. heightened global conflicts) along with the long-term health and economic affects of the COVID-19 pandemic continue to drive the growing homelessness problem within the **GTA**. Even the cyclic **Winter Response** program, which spikes during the cold season, experienced a considerable rise in service users, much more so than in previous years. This noticeable increase in the number of temporary **Winter Response** program users likely reflects the growing number of undocumented homeless people within the **GTA** that do not have access to other shelter services (i.e. "*hidden homelessness*").
+**Figure 7. Homeless Program Area within the GTA.** Overnight services that deal with the region's homeless population can be categorized as either: **(i) Base Shelter**, **(ii) Base Program - Refugee**, **(iii) Temporary Refugee Response**, **(iv) COVID-19 Response**, or **(v) Winter Response**. These 5 program areas are obviously regular (i.e. year-round) or temporary in nature. The current refugee situation (i.e. heightened global conflicts) along with the long-term health and economic affects of the COVID-19 pandemic continue to drive the growing homelessness problem within the **GTA**. Even the cyclic **Winter Response** program, which spikes during the cold season, experienced a considerable rise in service users, much more so than in previous years. This noticeable increase in the number of temporary **Winter Response** program users likely reflects the growing number of undocumented homeless people within the **GTA** that do not have access to other shelter services (i.e. "*hidden homelessness*").
 
 <br>
 <br>
 
 <div align=center>
+## Figure 8: Homes First Delta Hotel Shelter
+### (Occupancy Numbers)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width='90%', fig.align='center'}
 ### *****************************************************************
 ### ** GRAPH 8 - TOTAL # for PID16011 (2035 Kennedy Rd) 2024-03-29 **
@@ -729,8 +738,7 @@ plot3 <- ggplot(data = df3NAPID16011,     # data set
     y = SERVICE_USER_COUNT)) +
   geom_point(color = "darkblue", size = 2, alpha = 0.4)+
   labs(x = "Occupancy Date",
-       y = "Occupancy # (counts)",
-       title = "Figure 8: Homes First Delta Hotel Shelter") +
+       y = "Occupancy # (counts)") +
   theme_bw()
 
 plot3b <- plot3 +     # theme adjustments
@@ -787,8 +795,12 @@ plot3bm
 ```
 
 </div>
+
 <br>
+
 <div align=center>
+## Figure 9: Homes First Delta Hotel Shelter
+### (# Unavailable Rooms)
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='100%', fig.align='center'}
 ### *******************************************************************
 ### ** GRAPH 9 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
@@ -803,9 +815,7 @@ plot16011 <- df3NAPID16011 %>%
   geom_smooth(span = 0.5) +
   scale_color_distiller(palette = "Blues", direction = 1) +
   labs(x = "Date",
-       y = "Unavailable Rooms (counts)",
-       title = "Figure 9: Homes First Delta Hotel Shelter (# Unavailable Rooms)",
-       color = "Room Capacity") +
+       y = "Unavailable Rooms (counts)") +
   theme_bw() +
   theme(plot.title = element_text(size = 14L,
                                   face = "bold", hjust = 0.5, vjust = 0),
@@ -822,7 +832,7 @@ plot2035Kenly
 
 </div>
 
-**Figure 8 & 9. Occupancy Number at the Homes First run Delta Hotel Shelter.** The two graphs above show the number of rooms at the Delta Shelter that are either occupied (**Figure 8**) or unoccupied (**Figure 9**) by a homeless person. The marginal histogram that is apart of **Figure 8** shows that the plotted occupancy values fall into 2 distinct populations. These two populations of data points begin to emerge after July 22<sup>nd</sup> 2022 (i.e. July 21<sup>st</sup> = 316 residents, July 22<sup>nd</sup> = 334 residents). Current data trends suggest that a smaller Delta resident population, similar to the one that existed prior to July 22<sup>nd</sup> 2022, will likely re-emerge. The rising number of unavailable rooms at the Delta Shelter over the last 39 days (**Figure 9**) shows the rapidly changing dynamics of the Delta Shelter population. The plotted **loess** (**LO**cal regr**ESS**ion) fitted "*smoothed*" curve is a common non-parametric modelling tool used to fit a curve to a set of data points. Here the **Loess** model is "well defined" (i.e. residuals are constant over the full range of x values) and thus reveals a "*real*" overall pattern in the data (i.e. increasing rate of unavailable rooms). It is also important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is only one of 9 shelters and 17 supportive housing sites run by this charitable agency. Their mission statement is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*", particularly for a growing homeless **<a class="one" href="https://homefulltoronto.ca/">senior</a>** (>50 yrs) population that make up a large part of their ~2,300 clients. However, despite the continued rise in the number of **GTA** homeless persons and the recent infusion of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) into its shelter system, **Homes First** has unilaterally decided to transition the **Delta** site to a refugee only shelter (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of the shelter. Many have already faced punitive "*service restrictions*" without any appeals process. The recent updated *ad hoc* appeals process typically results in the clients eviction at the end of the restriction period, since this process usually takes 1 or 2 weeks. Note that during the time it takes to resolve the appeals process the client is usually forced to find accommodations elsewhere (i.e. homeless). The recent rise in the number of **unavailable** rooms (**Fig. 9**) is likely an indicator of future evictions for many non-refugee residents at the Delta shelter. Note that the number of **unavailable rooms** (i.e. **UNAVAILABLE ROOMS** = **ROOMS CAPACITY FUNDING** - **ROOM OCCUPIED**) are rooms that the service provider still has designated funding to maintain (**Table 1**).
+**Figure 8 & 9. Homes First's Delta Hotel Shelter.** The two graphs above show the number of rooms at the Delta Shelter that are either occupied (**Figure 8**) or unoccupied (**Figure 9**) by a homeless person. The marginal histogram that is apart of **Figure 8** shows that the plotted occupancy values fall within 2 distinct populations. These two populations of data points begin to emerge on July 22<sup>nd</sup> 2022 (i.e. July 21<sup>st</sup> = 316 residents, July 22<sup>nd</sup> = 334 residents). The reasons for this are currently unknown, but may reflect <u>increased</u> funding to the Shelter System. Current data trends suggest that a smaller Delta resident population, similar to the one that existed prior to July 22<sup>nd</sup> 2022, will likely re-emerge. The rising number of unavailable rooms at the Delta Shelter over the last 39 days (**Figure 9**) shows the rapidly changing dynamics of the Delta Shelter population. The plotted **loess** (**LO**cal regr**ESS**ion) fitted "*smoothed*" curve is a common non-parametric modelling tool used to fit a curve to a set of data points. Here the **Loess** model is "well defined" (i.e. residuals are constant over the full range of x values) and thus reveals a "*real*" overall pattern in the data (i.e. increasing rate of unavailable rooms). It is also important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is only one of 9 shelters and 17 supportive housing sites run by this charitable agency. Their mission statement is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*", particularly for a growing homeless **<a class="one" href="https://homefulltoronto.ca/">senior</a>** (>50 yrs) population that make up a large part of their ~2,300 clients. However, despite the continued rise in the number of **GTA** homeless persons and the recent infusion of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) into its shelter system, **Homes First** has unilaterally decided to transition the **Delta** site to a refugee only shelter (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of the shelter. Many have already faced punitive "*service restrictions*" without any appeals process. The recent updated *ad hoc* appeals process typically results in the clients eviction at the end of the restriction period, since this process usually takes a week or more. It is important to note that during the time it takes to resolve the appeals process the client is removed from the shelter and forced to find accommodations elsewhere (i.e. homeless). The recent rise in the number of **unavailable** rooms (**Fig. 9**) is likely an indicator of future evictions for many non-refugee residents at the Delta shelter. Note that the number of **unavailable rooms** (i.e. **UNAVAILABLE ROOMS** = **ROOMS CAPACITY FUNDING** - **ROOM OCCUPIED**) are rooms that the service provider still has designated funding to maintain (**Table 1**). In light of the recent increase in funding to the Shelter System one would expect that there should be safe shelter for all homeless and displaced individuals within the **GTA**. 
 
 
 ```{r include=FALSE, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE,}
