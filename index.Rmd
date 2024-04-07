@@ -1,7 +1,7 @@
 ---
 title: "GTA Shelter System - Population in Crisis"
 author: "Voices 4 Unhoused Liberation"
-date: "2024-04-05"
+date: "2024-04-07"
 output: html_document
 ---
 
@@ -149,13 +149,188 @@ body{font-size: 14pt;}
 
 <body>
 
+<br>
+<br>
+
+**Homelessness**, as defined by **C**anadian **O**bservatory on **H**omelessness (**COH**, formerly the Canadian Homelessness Research Network):<br>
+
+>"*describes the situation of an individual, family or community without stable, permanent, appropriate housing, or the immediate prospect, means and ability of acquiring it. It is the result of systemic or societal barriers, a lack of affordable and appropriate housing, the individual/household’s financial, mental, cognitive, behavioural or physical challenges, and/or racism and discrimination*."**<sup>1</sup>**
+
+The negative social and economic consequences of **homelessness** in Canada are enormous. Homelessness has in fact flourished in past few decades, largely because of a lack of government leadership. The current shelter strategy that "*warehouses*" the poor, keeping them "*out-of-sight*" and "*out-of-mind*", has failed miserably. These types of "*band-aide*" solutions simply do not address the root causes of homelessness. 
+
+>"*In some ways, it is simple: Canada can choose to invest an average of $2 billion annually to save $4 billion, and bolster urban economies, keep hundreds of thousands of Canadians healthy and productive as well as ensure productive futures. Or we can simply continue with the <u>status quo</u> and hope that things correct themselves, although after nearly 15 years since the original 1993 federal retreat from housing, Canada has succeeded mainly in increasing homelessness*."**<sup>2</sup>**
+
+In fact, the current <u>status quo</u> is "*actually really expensive*".**<sup>3</sup>** It is far cheaper and more cost effective to provide homeless people with real housing, as apposed to "*band-aide*" solutions like shelters, hostels, warming centres and other like-minded temporary emergency services. Current evidence based research clearly "*points to the fact that if we do things differently, we not only achieve better social outcomes, but we also save money*."**<sup>3</sup>** Homelessness is estimated to cost the Canadian economy **<a class="one" href="https://www.homelesshub.ca/about-homelessness/homelessness-101/cost-analysis-homelessness">7.05 billion dollars</a>** on an annual basis. 
+
+The chronic lack of safe and affordable housing, along with the growing economic divide between rich and poor, needs to be addressed by all levels of governments. The current scatter-shot approach to mitigating or eliminating homelessness and poverty, which are inextricably linked, has produced little in the way of real positive social/economic change. 
+
+>"*Not repeating past mistakes should at least be a first line of defence...*[such as]*curtailed social assistance...punitively low minimum wage rates...tax incentives that ignore renters and those on social assistance...cutbacks to social services and health*."**<sup>2</sup>**
+
+<br>
+
+## About Toronto's Shelter System
+&nbsp; &nbsp; Information in this report is based on a number of Shelter and Homelessness records that are freely available for download from the City of Toronto's **<a class="one" href="https://open.toronto.ca/">Open Data Portal</a>**. The following is a brief overview of the main datasets analyzed by our group, the **<a class="one" href="https://www.unhousedliberation.ca/">Voices 4 Unhoused Liberation</a>**.<br>
+**(i) <a class="one" href="https://open.toronto.ca/dataset/central-intake-calls/">Central Intake</a>** (**CI**)**<sup>4</sup>** is the entry point for persons in need of emergency shelter services. People able to access **CI**'s 24/7 telephone line (416-338-4766 or 1-877-338-3398) can potentially receive a <u>referral</u> to an emergency shelter or other overnight accommodations. This dataset contains records of calls received by **CI**, and the outcomes of those calls (e.g. # unique individuals who contact **CI**, but were not matched to a shelter space each day). All of this information is collected by the city of Toronto's **S**helter **M**anagement **I**nformation **S**ystem (**SMIS**). Callers not matched to an available space that <u>suits their needs</u> remain in the queue until they can be provided a referral, or until the closeout process at the end of the night at 4:00 AM. These daily call counts and <u>outcomes</u> (i.e. **SMIS** assigns codes for various outcomes) are collected and reported on a monthly basis (i.e. monthly updates are published on the 15<sup>th</sup> day of the following month). **CI** uses 13 distinct <u>wrap-up codes</u> to classify the daily calls they receive. Unfortunately, these codes only provide information about the volume and types of calls, and do not contain information about the outcomes of said referrals.<br>
+**(ii)** **<a class="one" href="https://open.toronto.ca/dataset/toronto-shelter-system-flow/">Toronto Shelter System Flow</a>** (**TSSF**)**<sup>5</sup>** data is compiled on a monthly basis by the city of Toronto's **S**helter **M**anagement **I**nformation **S**ystem (**SMIS**). These records show the number of people entering (intake) or leaving (outtake) the shelter system. Some of the terms used in these records are listed in **Table 1**. Unfortunately, the current **SMIS** data is limited since it does not include any information about homeless people sleeping outdoors, or homeless people who do not use city funded services that are apart of **SMIS**. Although it is difficult to assess the exact number of homelessness people within the city, the most recent **<a class="one" href="https://open.toronto.ca/dataset/2021-street-needs-assessment-results/">Street Needs Assessment (2021)</a>** suggests that ~18% of city's homeless population are not included in the current data. This is likely an under estimate of its "*true*" size given the severity of the current housing and homelessness problems within the region.**<sup>5</sup>**<br>
+**(iii) <a class="one" href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity/">Daily Shelter Overnight Service Occupancy</a>** (**DSOSO**)**<sup>6</sup>** records maintained by **SMIS** is compiled on a daily basis. It records the number of people who use overnight shelters and allied services within the **GTA**. The data includes the identify of program operators, as well as the locations and nature of the services they provide.**<sup>6</sup>**<br>
+&nbsp; &nbsp; Unfortunately there is little information about the amount of funding the city receives and allocates for these different homeless programs and services. The **DSOSO** dataset only mentions **Funding Capacity** within the context of the "*number of beds or rooms that a program is intended* [funded] *to provide*".**<sup>6</sup>** Although there may be a number of reasons why beds or rooms may be temporarily out of service (e.g. repairs, renovations, outbreaks, or pest control) they are not reported. These records also mention **Actual Capacity**, which refers to the "*number of beds or rooms in service and showing as <u>available for occupancy</u> in the SMIS at time of reporting.*" This latter measure is touted as being "*a more effective capacity measure to assess program occupancy rates*". However, the number of <u>unavailable</u> rooms or beds (**Note:** **# UNAVAILABLE BEDS** = **Capacity Funding Bed** - **Capacity Actual Bed**) is arguable a more reliable measure of the number of rooms/beds the currently funded system can and should provide and fill on a daily basis. Unfortunately there appears to be very little oversight of service providers with regards to reducing or eliminating bed/room "*unavailability*", and the draconian nature of service restrictions they impose on their clients. 
+
+<br>
+
+<div align=center>
+<!----------------------------------------------------------------->
+<!---------- TABLE 1 - CENTRAL INTAKE CALL CENTRE TERMS ----------->
+<!----------------------------------------------------------------->
+<a id="Tab1"> </a>
+<table class="Table">
+    <thead>
+      <tr>
+        <td colspan="4"><span id="BBlk20">TABLE 1. CENTRAL INTAKE CALL CENTRE FEATURES</span></td>
+      </tr>
+    <thead>
+    <thead>
+      <tr>
+        <th class="f18" colspan="1"><span id="Blk">Term</span><sup>4</sup></th>
+        <th class="f18" colspan="3"><span id="Blk">Definition</span><sup>4</sup></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align:center"><span id="Blk">Date</span></td>
+        <td style="text-align:left">Data recorded up until "close-out", which is completed at 4:00 AM, is included in the daily reports (i.e. Jan 2<sup>nd</sup> 4 AM data would be included as part of Jan 1<sup>st</sup> operational record).</td>
+      </tr>
+      <tr>
+        <td style="text-align:center"><span id="Blk">Unmatched Callers</span></td>
+        <td style="text-align:left">Total individuals who were <u>not</u> able to be offered a space over the past 24 hours, at time of closeout at 4:00 AM.</td>
+      </tr>
+      <tr>
+        <td style="text-align:center"><span id="Blk">Single Call</span></td>
+        <td style="text-align:left">Number of <u>unmatched callers</u> who had called Central Intake a single time on this date.</td>
+      </tr>
+      <tr>
+        <td style="text-align:center"><span id="Blk">Repeat Caller</span></td>
+        <td style="text-align:left">Number of <u>unmatched callers</u> who had called Central Intake two or more times on this date.</td>
+      </tr>
+    </tbody>
+</table>
+
+<!--------------------------------------------------------->
+<!--------------------------------------------------------->
+</div>
+
+<br>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 
 ### Libraries (R packages used in data analysis)
-pacman::p_load(pacman, tidyverse, skimr, janitor, kableExtra, dplyr, purrr, rio, here, tidyverse, dplyr, ggplot2, stringr, flexdashboard, flextable, DT, shiny, plotly, ggExtra, cowplot, patchwork, forcats, naniar, DescTools, lubridate)
+pacman::p_load(pacman, fs, tidyverse, skimr, janitor, kableExtra, dplyr, purrr, rio, here, tidyverse, dplyr, ggplot2, ggpubr, stringr, flexdashboard, flextable, DT, shiny, plotly, ggExtra, cowplot, patchwork, forcats, naniar, DescTools, lubridate)
 
 ```
+
+```{r eval=FALSE, include=FALSE}
+### Import data file
+mortdf <- import(here("Datasets", "Homeless deaths by month.csv"))
+
+mortdf$Year <- paste(mortdf$`Month of death`,
+                     mortdf$`Year of death`, sep = " ")
+
+# Convert Year column values to "class" *date*
+mortdf2 <- mortdf %>% mutate(Year = lubridate::my(Year))
+
+### Change Column Names using **rename** function of "dplyr" package
+lookup <- c(Date = "Year", Year = "Year of death")
+mortdf2 <- rename(mortdf2, all_of(lookup))
+
+# select columns for new df
+mortdf3 <- select(mortdf2, 1,2,5,4) %>% drop_na()
+
+mortdf4 <- mortdf3 %>% group_by(Year) %>% summarise(Year_sum = sum(Count)) %>% kable()
+
+mortdf3 %>% ggplot() +
+  aes(x = Year, weight = Count) +
+  geom_bar(fill = "darkblue") +
+  labs(x = "Date", y = "# Deaths (counts)") +
+  theme_bw() +
+  theme(axis.title.y = element_text(size = 12L, face = "bold"),
+        axis.title.x = element_text(size = 12L, face = "bold"))
+
+### Use "fs" package to generate file "tree" of folder "Datasets"
+datasetFiles <- fs::dir_tree(path="Datasets")
+
+```
+
+```{r include=FALSE}
+### import Central Intake Call dataset
+CICdf1 <- import(here("Datasets", "Central Intake Call Wrap-Up Codes Data.csv"))
+CICdf2 <- import(here("Datasets", "Central Intake Service Queue Data.csv"))
+
+```
+
+<div align=center>
+## Figure 1: Toronto Central Intake Centre (CIC)
+### (Current Data: 2020/11/03 - 2024/02/29)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.align='center'}
+### Plot Central Intake Call Information
+CIC1plot <- ggplot(CICdf1) +
+  aes(x = Date,
+      y = `Total calls coded`,
+      colour = `Code 1A - Referral to a Sleeping/Resting Space`) +
+  geom_line(linewidth = 1) +
+  scale_color_viridis_c(option = "inferno", direction = -1) +
+  labs(x = "Date",
+       y = "Total # Calls (coded)",
+       color = "Total # Referrals \n (Sleeping/Resting Spaces)") +
+  theme_bw() +
+  theme(axis.title.y = element_text(size = 11L, face = "bold"),
+        axis.title.x = element_text(size = 11L, face = "bold"),
+        plot.background = element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        legend.justification = c(1,0),
+        legend.position = c(0.36,0.53))
+
+CIC1plot
+
+```
+
+</div>
+**Figure 1. Toronto Central Intake Daily Call Totals.** The plotted data, which was taken from the "*Central Intake Call Wrap-Up Codes*" dataset, provides daily counts of calls answered by **Central Intake Centre** (**CIC**). The calls are classified by a caseworker using 13 distinct "*wrap-up*" codes (i.e. describes general nature of the call). These daily **SMIS** records are manually updated on a monthly basis. Although the "*wrap-up*" codes provide information related to the volume and type of calls received, it does not track requests made by unique individuals, nor the ultimate outcomes of referrals.**<sup>4</sup>** Looking at the plotted data it is evident that there has been an overall increase in the number of calls to **CIC**. Overall, few callers were able to successfully obtain a referral for an overnight sleeping or resting space (colour coded). This low success rate has been particularly pronounced within the last 10 months.
+
+<br>
+<br>
+
+<div align=center>
+## Figure 2: Toronto Central Intake Centre (CIC)
+### (Current Data: 2020/10/30 - 2024/02/29)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.align='center'}
+### Plot Central Intake Call Information
+CIC2plot <- ggplot(CICdf2) +
+  aes(x = Date,
+      y = `Unmatched callers`,
+      colour = `Repeat caller`) +
+  geom_line(linewidth = 1) +
+  scale_color_viridis_c(option = "inferno", direction = -1) +
+  labs(x = "Date",
+       y = "# Unmatched Callers (no shelter provided)",
+       colour = "# Repeat Callers") +
+  theme_bw() +
+  theme(axis.title.y = element_text(size = 11L, face = "bold"),
+        axis.title.x = element_text(size = 11L, face = "bold"),
+        plot.background = element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        legend.justification = c(1,0),
+        legend.position = c(0.255,0.55))
+
+CIC2plot
+
+rm(CICdf1, CICdf2)
+
+```
+
+</div>
+**Figure 2. Toronto Central Intake Total Numbers of Daily Unmatched Callers.** The plotted data, taken from the monthly updated "*Central Intake Service Queue*" dataset, provides daily counts of unique individuals who contacted the **CIC** to access an emergency shelter, but were <u>not matched</u> to a shelter space. The **SMIS** <u>service queue</u> caller data details when a bed was requested for a caller seeking a shelter space. An <u>unmatched</u> caller (i.e. person not given a referral to an available space that suits their needs at the time of their call) <u>remains in the queue</u> until either they were are provided a referral, or until "*close-out*" (i.e. 4:00 AM, end of the night). The data only contains three features, namely: (i) date of the call, (ii) total number of **Unmatched Callers**, and (iii) whether the caller phoned once (i.e. **Single Caller**) or multiple times (i.e. **Repeat Caller**).**<sup>4</sup>** Looking at the plotted data it is evident that there has been a steady increase in the number of callers <u>not</u> receiving a referral to an overnight sleeping space or safe shelter despite repeated calls.
 
 ```{r include=FALSE}
 ### Import data file
@@ -203,40 +378,15 @@ rm(Demodf)
 
 <br>
 
-**Homelessness**, as defined by **C**anadian **O**bservatory on **H**omelessness (**COH**, formerly the Canadian Homelessness Research Network):<br>
-
->"*describes the situation of an individual, family or community without stable, permanent, appropriate housing, or the immediate prospect, means and ability of acquiring it. It is the result of systemic or societal barriers, a lack of affordable and appropriate housing, the individual/household’s financial, mental, cognitive, behavioural or physical challenges, and/or racism and discrimination*."**<sup>1</sup>**
-
-The negative social and economic consequences of **homelessness** in Canada are enormous. Homelessness has in fact flourished in past few decades, largely because of a lack of government leadership. The current shelter strategy that "*warehouses*" the poor, keeping them "*out-of-sight*" and "*out-of-mind*", has failed miserably. These types of "*band-aide*" solutions simply do not address the root causes of homelessness. 
-
->"*In some ways, it is simple: Canada can choose to invest an average of $2 billion annually to save $4 billion, and bolster urban economies, keep hundreds of thousands of Canadians healthy and productive as well as ensure productive futures. Or we can simply continue with the <u>status quo</u> and hope that things correct themselves, although after nearly 15 years since the original 1993 federal retreat from housing, Canada has succeeded mainly in increasing homelessness*."**<sup>2</sup>**
-
-In fact, the current <u>status quo</u> is "*actually really expensive*".**<sup>3</sup>** It is far cheaper and more cost effective to provide homeless people with real housing, as apposed to "*band-aide*" solutions like shelters, hostels, warming centres and other like-minded temporary emergency services. Current evidence based research clearly "*points to the fact that if we do things differently, we not only achieve better social outcomes, but we also save money*."**<sup>3</sup>** Homelessness is estimated to cost the Canadian economy **<a class="one" href="https://www.homelesshub.ca/about-homelessness/homelessness-101/cost-analysis-homelessness">7.05 billion dollars</a>** on an annual basis. 
-
-The chronic lack of safe and affordable housing, along with the growing economic divide between rich and poor, needs to be addressed by all levels of governments. The current scatter-shot approach to mitigating or eliminating homelessness and poverty, which are inextricably linked, has produced little in the way of real positive social/economic change. 
-
->"*Not repeating past mistakes should at least be a first line of defence...*[such as]*curtailed social assistance...punitively low minimum wage rates...tax incentives that ignore renters and those on social assistance...cutbacks to social services and health*."**<sup>2</sup>**
-
-<br>
-<br>
-
-## About Toronto's Shelter System
-&nbsp; &nbsp; Information in this report is based on a number of Shelter and Homelessness records that are freely available for download from the City of Toronto's **<a class="one" href="https://open.toronto.ca/">Open Data Portal</a>**. A brief overview of the two main datasets analyzed by our group, the **<a class="one" href="https://www.unhousedliberation.ca/">Voices 4 Unhoused Liberation</a>**, is given below.<br>
-**(i)** **<a class="one" href="https://open.toronto.ca/dataset/toronto-shelter-system-flow/">Toronto Shelter System Flow</a>** (**TSSF**)**<sup>4</sup>** data is compiled on a monthly basis by the city of Toronto's **S**helter **M**anagement **I**nformation **S**ystem (**SMIS**). These records show the number of people entering (intake) or leaving (outtake) the shelter system. Some of the terms used in these records are listed in **Table 1**. Unfortunately, the current **SMIS** data is limited since it does not include any information about homeless people sleeping outdoors, or homeless people who do not use city funded services that are apart of **SMIS**. Although it is difficult to assess the exact number of homelessness people within the city, the most recent **<a class="one" href="https://open.toronto.ca/dataset/2021-street-needs-assessment-results/">Street Needs Assessment (2021)</a>** suggests that ~18% of city's homeless population are not included in the current data. This is likely an under estimate of its "*true*" size given the severity of the current housing and homelessness problems within the region.**<sup>4</sup>**<br>
-**(ii) <a class="one" href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity/">Daily Shelter Overnight Service Occupancy</a>** (**DSOSO**)**<sup>5</sup>** records maintained by **SMIS** is compiled on a daily basis. It records the number of people who use overnight shelters and allied services within the **GTA**. The data includes the identify of program operators, as well as the locations and nature of the services they provide.**<sup>5</sup>**<br>
-&nbsp; &nbsp; Unfortunately there is little information about the amount of funding the city receives and allocates for these different homeless programs and services. The **DSOSO** dataset only mentions **Funding Capacity** within the context of the "*number of beds or rooms that a program is intended* [funded] *to provide*".**<sup>5</sup>** Although there may be a number of reasons why beds or rooms may be temporarily out of service (e.g. repairs, renovations, outbreaks, or pest control) they are not reported. These records also mention **Actual Capacity**, which refers to the "*number of beds or rooms in service and showing as <u>available for occupancy</u> in the SMIS at time of reporting.*" This latter measure is touted as being "*a more effective capacity measure to assess program occupancy rates*". However, the number of <u>unavailable</u> rooms or beds (**Note:** **# UNAVAILABLE BEDS** = **Capacity Funding Bed** - **Capacity Actual Bed**) is arguable a more reliable measure of the number of rooms/beds the currently funded system can and should provide and fill on a daily basis. Unfortunately there appears to be very little oversight of service providers with regards to reducing or eliminating bed/room "*unavailability*", and the draconian nature of service restrictions they impose on their clients. 
-
-<br>
-
 <div align=center>
 <!-------------------------------------------------------------->
-<!---------- TABLE 1 - TSSF DATASET CATEGORIES/TERMS ----------->
+<!---------- TABLE 2 - TSSF DATASET CATEGORIES/TERMS ----------->
 <!-------------------------------------------------------------->
-<a id="Tab1"> </a>
+<a id="Tab2"> </a>
 <table class="Table">
     <thead>
       <tr>
-        <td colspan="4"><span id="BBlk20">TABLE 1. TSSF DATA FEATURES</span></td>
+        <td colspan="4"><span id="BBlk20">TABLE 2. TSSF DATA FEATURES</span></td>
       </tr>
     <thead>
     <thead>
@@ -280,11 +430,11 @@ The chronic lack of safe and affordable housing, along with the growing economic
 <br>
 
 <div align=center>
-## Figure 1: Toronto Shelter System Flow (TSSF)
-### (SMIS dataset: 2018/01/15 - 2024/02/15)
+## Figure 3: Toronto Shelter System Flow (TSSF)
+### (SMIS dataset: 2018/01 - 2024/02)
 
 ```{r echo=FALSE, fig.height=6, fig.width=8, fig.align='center'}
-### Bar Graph 
+### Bar Graph 3
 plotDemodf3 <- ggplot(Demodf3) +
   aes(x = Date,
       y = actively_homeless) +
@@ -304,7 +454,7 @@ plotDemodf3
 
 ```
 </div>
-**Figure 1. Toronto Shelter System Flow Data Total Numbers.** This plot shows the total number of actively homeless people according to **SMIS** records. This only pertains to those people who have used overnight services that use **SMIS** (i.e. excludes people who sleep outdoors or who use non-**SMIS** homeless services). The changing width of the plotted line reflects the changing dynamics of the homeless population over a 6 year period. Clearly the number of homeless people within the **GTA** is at an all time high and continues to trend upwards. The delayed nature of the collected data (i.e. published on the 15<sup>th</sup> day of every month) means that the next update (i.e. 2024-04-15) will include records for the period ending on March 15<sup>th</sup>. Currently there are 11,173 "actively" homeless people that have been recorded via **SMIS**. Although far from complete, this report does appear (for some unknown reason) to be more extensive than the **DSOSO** records, since the latter reports only 9,946 homeless people for the same reporting period (Feb 15<sup>th</sup> 2024). This discrepancy in the number of reported homeless people is a bit disconcerting given that both datasets are based on the **SMIS** records.
+**Figure 3. Toronto Shelter System Flow Data Total Numbers.** This plot shows the total number of actively homeless people according to **SMIS** records. This only pertains to those people who have used overnight services that use **SMIS** (i.e. excludes people who sleep outdoors or who use non-**SMIS** homeless services). The changing width of the plotted line reflects the changing dynamics of the homeless population over a 6 year period. Clearly the number of homeless people within the **GTA** is at an all time high and continues to trend upwards. The delayed nature of the collected data (i.e. published on the 15<sup>th</sup> day of every month) means that the next update (i.e. 2024-04-15) will include records for the period ending on March 15<sup>th</sup>. Currently there are 11,173 "actively" homeless people that have been recorded via **SMIS**. Although far from complete, this report does appear (for some unknown reason) to be more extensive than the **DSOSO** records, since the latter reports only 9,946 homeless people for the same reporting period (Feb 15<sup>th</sup> 2024). This discrepancy in the number of reported homeless people is a bit disconcerting given that both datasets are based on the **SMIS** records.
 
 <br>
 
@@ -332,11 +482,11 @@ mytab2 <- mytab %>% kable()
 ```
 
 <div align=center>
-## Figure 2: Toronto Shelter System Flow (TSSF)
-### (SMIS dataset: 2018/01/15 - 2024/02/15)
+## Figure 4: Toronto Shelter System Flow (TSSF)
+### (SMIS dataset: 2018/01 - 2024/02)
 
 ```{r echo=FALSE, fig.height=6, fig.width=8, fig.align='center'}
-### Graph Demographics of Homeless Population in GTA
+### Graph 4 - Demographics of Homeless Population in GTA
 DemoPlot4 <- ggplot(Demodf4) +
   aes(x = Date,
       y = actively_homeless,
@@ -368,7 +518,7 @@ DemoPlot4
 ```
 
 </div>
-**Figure 2. Demographics of TSSF dataset.** The above plot shows the number of actively homeless people classified as either **(i)** Chronically homeless, **(ii)** a member of a homeless Family, **(iii)** Indigenous, **(iv)** a non-refugee, **(v)** a refugee, **(vi)** a single adult (> 24 yrs), or a **(vii)** Youth (16-24 yrs) who is not a member of an homeless family. Like **Figure 1**, the changing width of the plotted line reflects the changing dynamics of each homeless group. Currently (Feb 2024) the largest homeless demographic group is single adults (Note: 7579 single adults, or 67.8%, compare to 2538 family members, or 22.7%, and 1056 youths, or 9.5%), who make up ~77% (4590/5940) of the chronic homeless population. The population of homeless refugees (5768, or 51.6%) slightly out numbers the non-refugee homeless population (5405, or 49.4%). Nevertheless both refugee and non-refugee populations have been trending upwards since December 2023.
+**Figure 4. Demographics of TSSF dataset.** The above plot shows the number of actively homeless people classified as either **(i)** Chronically homeless, **(ii)** a member of a homeless Family, **(iii)** Indigenous, **(iv)** a non-refugee, **(v)** a refugee, **(vi)** a single adult (> 24 yrs), or a **(vii)** Youth (16-24 yrs) who is not a member of an homeless family. Like **Figure 3**, the changing width of the plotted line reflects the changing dynamics of each homeless group. Currently (Feb 2024) the largest homeless demographic group is single adults (Note: 7579 single adults, or 67.8%, compare to 2538 family members, or 22.7%, and 1056 youths, or 9.5%), who make up ~77% (4590/5940) of the chronic homeless population. The population of homeless refugees (5768, or 51.6%) slightly out numbers the non-refugee homeless population (5405, or 49.4%). Nevertheless both refugee and non-refugee populations have been trending upwards since December 2023.
 
 <br>
 <br>
@@ -554,19 +704,19 @@ rm(df1, df2, df2.NA)
 
 <div align=center>
 <!--------------------------------------------------------->
-<!---------- TABLE 2 - DSSO DATASET CATEGORIES/TERMS ----------->
+<!---------- TABLE 3 - DSSO DATASET CATEGORIES/TERMS ----------->
 <!--------------------------------------------------------->
-<a id="Tab1"> </a>
+<a id="Tab3"> </a>
 <table class="Table">
     <thead>
       <tr>
-        <td colspan="4"><span id="BBlk20">TABLE 2. DSOSO DATASET CATEGORIES/TERMS</span></td>
+        <td colspan="4"><span id="BBlk20">TABLE 3. DSOSO DATASET CATEGORIES/TERMS</span></td>
       </tr>
     <thead>
     <thead>
       <tr>
-        <th class="f18" colspan="1"><span id="Blk">Term</span><b><sup>5</sup></b></th>
-        <th class="f18" colspan="3"><span id="Blk">Definition</span><b><sup>5</sup></b></th>
+        <th class="f18" colspan="1"><span id="Blk">Term</span><b><sup>6</sup></b></th>
+        <th class="f18" colspan="3"><span id="Blk">Definition</span><b><sup>6</sup></b></th>
       </tr>
     </thead>
     <tbody>
@@ -627,12 +777,12 @@ rm(df1, df2, df2.NA)
 <br>
 
 <div align=center>
-## Figure 3: GTA Shelter Population (DSOSO)
+## Figure 5: GTA Shelter Population (DSOSO)
 ### (Period: 2021/01/01 - 2024/03/29)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.align='center'}
 ### ***********************************************************
-### ********** GRAPH 3 - TOTAL #s vs TIME line graph **********
+### ********** GRAPH 5 - TOTAL #s vs TIME line graph **********
 ### ***********************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -664,18 +814,18 @@ plotResSumly
 ```
 
 </div>
-**Figure 3. Total Shelter Population within the Greater Toronto Area (GTA).** The above plot shows the total number of daily shelter users for the period spanning 2021-01-01 to 2024-03-29. The number of shelter occupants have increased by more than 60% during this time.
+**Figure 5. Total Shelter Population within the Greater Toronto Area (GTA).** The above plot shows the total number of daily shelter users for the period spanning 2021-01-01 to 2024-03-29. The number of shelter occupants have increased by more than 60% during this time.
 
 <br>
 <br>
 
 <div align=center>
-## Figure 4: GTA Shelter Population (DSOSO)
+## Figure 6: GTA Shelter Population (DSOSO)
 ### (Regional Numbers)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### *************************************************************
-### ********** GRAPH 4 - TOTAL # vs TIME (CITY FACETS) **********
+### ********** GRAPH 6 - TOTAL # vs TIME (CITY FACETS) **********
 ### *************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -708,18 +858,18 @@ plotCTly
 ```
 
 </div>
-**Figure 4. Shelter Population per GTA region.** The plot shows the total number of shelter users within different parts of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) for the past 39 months (2021-01-01 to 2024-03-29). The data reveals that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph in **Figure 5**).
+**Figure 6. Shelter Population per GTA region.** The plot shows the total number of shelter users within different parts of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) for the past 39 months (2021-01-01 to 2024-03-29). The data reveals that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph in **Figure 7**).
 
 <br>
 <br>
 
 <div align=center>
-## Figure 5: GTA Shelter Population (DSOSO)
+## Figure 7: GTA Shelter Population (DSOSO)
 ### (Regional Numbers: 2024-03-29)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,}
 ### *********************************************************
-### ********** GRAPH 5 - BAR GRAPH TOTAL # vs CITY **********
+### ********** GRAPH 7 - BAR GRAPH TOTAL # vs CITY **********
 ### *********************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -749,18 +899,18 @@ plotCityTotsly
 ```
 
 </div>
-**Figure 5. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-03-29) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.12%) and North York (18.69%) shelter the majority of homeless people, while Scarborough (8.58%), Etobicoke (4%), and Vaughan (0.61%) collectively house less than 14% of the homeless population.  
+**Figure 7. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-03-29) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.12%) and North York (18.69%) shelter the majority of homeless people, while Scarborough (8.58%), Etobicoke (4%), and Vaughan (0.61%) collectively house less than 14% of the homeless population.  
 
 <br>
 <br>
 
 <div align=center>
-## Figure 6: GTA Shelter Population (DSOSO)
+## Figure 8: GTA Shelter Population (DSOSO)
 ### (Shelter Sector Numbers)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### ***************************************************************
-### ********** GRAPH 6 - TOTAL # vs TIME (SECTOR FACETS) **********
+### ********** GRAPH 8 - TOTAL # vs TIME (SECTOR FACETS) **********
 ### ***************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -793,19 +943,18 @@ plotSectorly
 ```
 
 </div>
-
-**Figure 6. Homeless Demographics within the GTA Region.** The above graph looks at some homeless demographics within the **GTA**. The number of individuals within each of the designated homeless groups (i.e. **men**, **women**, **families**, **Youth** and **Mixed adults**) have rapidly increased over the last 3 years. Also, there has been quite dramatic "swings" in the size of the **Mixed adult** population over the past two years.
+**Figure 8. Homeless Demographics within the GTA Region.** The above graph looks at some homeless demographics within the **GTA**. The number of individuals within each of the designated homeless groups (i.e. **men**, **women**, **families**, **Youth** and **Mixed adults**) have rapidly increased over the last 3 years. Also, the size of the **Mixed adult** population has fluctuated quite dramatically over the past two years. Reasons for this fluctuations are currently unknown.
 
 <br>
 <br>
 
 <div align=center>
-## Figure 7: GTA Shelter Population (DSOSO)
+## Figure 9: GTA Shelter Population (DSOSO)
 ### (Program Model Numbers)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, out.width='100%', fig.align='center'}
 ### ****************************************************************
-### ******* GRAPH 7 - TOTAL # vs TIME (PROGRAM MODEL FACETS) *******
+### ******* GRAPH 9 - TOTAL # vs TIME (PROGRAM MODEL FACETS) *******
 ### ****************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -845,18 +994,18 @@ plotPMtotalsly
 ```
 
 </div>
-**Figure 7. Homeless Population Program Model.** The above graph looks at the designated **Emergency** and **Transitional** shelter programs within the **GTA**. According to City of Toronto's **Housing + Homelessness Service Glossary (2019)<sup>6</sup>** the **Emergency Shelter Program** constitutes a homeless shelter program that individuals and families can access without a referral. By contrast a **Transitional Shelter Program** constitutes a homeless program that individuals and families can access <u>only</u> with a <u>referral</u>. The **DSOSO** data clearly show that only about 1 out of every 10 homeless individuals have been able to access a <u>referral</u>.  
+**Figure 9. Homeless Population Program Model.** The above graph looks at the designated **Emergency** and **Transitional** shelter programs within the **GTA**. According to City of Toronto's **Housing + Homelessness Service Glossary (2019)<sup>7</sup>** the **Emergency Shelter Program** constitutes a homeless shelter program that individuals and families can access without a referral. By contrast a **Transitional Shelter Program** constitutes a homeless program that individuals and families can access <u>only</u> with a <u>referral</u>. The plotted **DSOSO** data clearly shows that only ~1 out of every 10 homeless individuals have been able to access a <u>referral</u>. This poor referral rate is also evident from the data plotted in **Figure 1** and **Figure 2**.
 
 <br>
 <br>
 
 <div align=center>
-## Figure 8: GTA Shelter Population (DSOSO)
+## Figure 10: GTA Shelter Population (DSOSO)
 ### (Service Type Numbers)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, out.width='100%', fig.align='center'}
 ### ***************************************************************
-### ******* GRAPH 8 - TOTAL # vs TIME (SERVICE TYPE FACETS) *******
+### ******* GRAPH 10 - TOTAL # vs TIME (SERVICE TYPE FACETS) *******
 ### ***************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -897,18 +1046,18 @@ plotSTtotalsly
 ```
 
 </div>
-**Figure 8. Homeless Overnight Service Types within the GTA.** Homeless individuals within the **GTA** can access different types of overnight services, inclduing: **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. There are a few other **Service Types** offered, but they are ill-defined and accessed by very few people. As of March 29<sup>th</sup> 2024 the vast majority of **Service Types** are emergency **Shelters** (4867 of 9704, or 50.15%) and **Motel/Hotel** (4062 of 9704, or 41.86%) services. Unfortunately, programs that ultimately lead to <u>permanent</u> housing are virtually non-existent.
+**Figure 10. Homeless Overnight Service Types within the GTA.** Homeless individuals within the **GTA** can access different types of overnight services, inclduing: **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. There are a few other **Service Types** offered, but they are ill-defined and accessed by very few people. As of March 29<sup>th</sup> 2024 the vast majority of **Service Types** are emergency **Shelters** (4867 of 9704, or 50.15%) and **Motel/Hotel** (4062 of 9704, or 41.86%) services. Unfortunately, programs that ultimately lead to <u>permanent</u> housing are virtually non-existent.
 
 <br>
 <br>
 
 <div align=center>
-## Figure 9: GTA Shelter Population (DSOSO)
+## Figure 11: GTA Shelter Population (DSOSO)
 ### (Program Area Numbers)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### ***************************************************************
-### ******* GRAPH 9 - TOTAL # vs TIME (PROGRAM AREA FACETS) *******
+### ******* GRAPH 11 - TOTAL # vs TIME (PROGRAM AREA FACETS) *******
 ### ***************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -945,18 +1094,18 @@ plotdf3NAPAly
 ```
 
 </div>
-**Figure 9. Homeless Program Area within the GTA.** Homeless programs can be categorized as either: **(i) Base Shelter**, **(ii) Base Program - Refugee**, **(iii) Temporary Refugee Response**, **(iv) COVID-19 Response**, or **(v) Winter Response**. Collectively they can be classified as either regular (i.e. year-round) or temporary programs. The rising numbers of homeless refugees and along with the long-term health and economic impacts of the COVID-19 pandemic appears to be driving the growing homeless population within the **GTA**. Even the cyclic **Winter Response** program, which normally spikes during the cold season, experienced a considerable rise in program users, much more so than in previous years.
+**Figure 11. Homeless Program Area within the GTA.** Homeless programs can be categorized as either: **(i) Base Shelter**, **(ii) Base Program - Refugee**, **(iii) Temporary Refugee Response**, **(iv) COVID-19 Response**, or **(v) Winter Response**. Collectively they can be classified as either regular (i.e. year-round) or temporary programs. The rising numbers of homeless refugees and along with the long-term health and economic impacts of the COVID-19 pandemic appears to be driving the growing homeless population within the **GTA**. Even the cyclic **Winter Response** program, which normally spikes during the cold season, experienced a considerable rise in program users, much more so than in previous years.
 
 <br>
 <br>
 
 <div align=center>
-## Figure 10: Homes First Delta Hotel Shelter (DSOSO)
+## Figure 12: Homes First Delta Hotel Shelter (DSOSO)
 ### (Occupancy Numbers)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width='90%', fig.align='center'}
 ### *****************************************************************
-### ** GRAPH 10 - TOTAL # for PID16011 (2035 Kennedy Rd) 2024-03-29 **
+### ** GRAPH 12 - TOTAL # for PID16011 (2035 Kennedy Rd) 2024-03-29 **
 ### *****************************************************************
 
 #### Use logic function "subset" to select SVdt rows
@@ -1026,17 +1175,88 @@ plot3bm
 
 ```
 
+
+```{r eval=FALSE, include=FALSE, echo=FALSE}
+##################################################
+##################################################
+### DATA FOR ==> ***LOESS MODEL***
+##################################################
+##################################################
+data1 <- df3NAPID16011 %>% filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-03-29")
+
+data2 <- data1 %>% select(OCCUPANCY_DATE, Room_Capacity_Funding, Rooms_Occupied, Rooms_Unavailable)
+
+df <- na.omit(data2)
+
+### Convert all character variables to factor variables
+library(dplyr)
+df %>% mutate_if(is.character, as.factor)
+
+### Fit a ***LOESS MODEL***
+loess_model <- loess(Rooms_Unavailable ~ as.numeric(OCCUPANCY_DATE), data = df, span = 0.5, degree = 1)
+
+# Fit higher order polynomial LOESS model
+loess_model2 <- loess(Rooms_Unavailable ~ as.numeric(OCCUPANCY_DATE), data = df, span = 0.5, degree = 2)
+
+# Generate predictions from the LOESS model
+predictions <- predict(loess_model, newdata = df)
+predictions <- cbind(df, predictions)
+predictions <- predictions[order(predictions$Rooms_Unavailable), ]
+
+predictions2 <- predict(loess_model2, newdata = df)
+predictions2 <- cbind(df, predictions2)
+predictions2 <- predictions2[order(predictions2$Rooms_Unavailable), ]
+
+# Create a scatter plot of the original data
+plot(predictions$OCCUPANCY_DATE,
+     predictions$Rooms_Unavailable,
+     col = "darkblue",
+     main = "LOESS Regression",
+     xlab = "Date",
+     ylab = "Unavaiable Rooms") +
+lines(predictions$OCCUPANCY_DATE,
+      predictions$predictions,
+      col = "darkred", lwd = 1)
+
+ggplot(df, aes(x = OCCUPANCY_DATE, y = Rooms_Unavailable)) +
+  geom_point() +
+  stat_smooth(method = "loess", se = FALSE, span = 0.5,
+              method.args = list(degree = 1) )
+
+ggplot(df, aes(x = OCCUPANCY_DATE, y = Rooms_Unavailable)) +
+  geom_point() +
+  stat_smooth(method = "loess", se = FALSE, span = 0.5,
+              method.args = list(degree = 2) )
+
+df$residuals <- residuals(loess_model)
+df$residuals2 <- residuals(loess_model2)
+
+ggplot(df, aes(x = OCCUPANCY_DATE, y = residuals)) +
+  geom_point() +
+  stat_smooth(method = "loess", se = FALSE, span = 0.5,
+              method.args = list(degree = 1) )
+
+ggplot(df, aes(sample = residuals)) + 
+  stat_qq(distribution = qnorm) +
+  stat_qq_line(distribution = qnorm, col = "blue")
+
+ggplot(df, aes(sample = residuals2)) + 
+  stat_qq(distribution = qnorm) +
+  stat_qq_line(distribution = qnorm, col = "blue")
+
+```
+
 </div>
 
 <br>
 
 <div align=center>
-## Figure 11: Homes First Delta Hotel Shelter
+## Figure 13: Homes First Delta Hotel Shelter (DSOSO)
 ### (# Unavailable Rooms)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='100%', fig.align='center'}
 ### *******************************************************************
-### ** GRAPH 11 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
+### ** GRAPH 13 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
 ### *******************************************************************
 plot16011 <- df3NAPID16011 %>%
   filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-03-29") %>%
@@ -1065,7 +1285,7 @@ plot2035Kenly
 ```
 
 </div>
-**Figure 10 & 11. Homes First's Delta Hotel Shelter.** The two graphs above show the number of rooms at the Delta Homeless Shelter that are either occupied (**Figure 10**) or unoccupied (**Figure 11**) by a person. The marginal histogram in **Figure 10** shows that the plotted occupancy values fall within 2 distinct populations. These two populations of data points begin to emerge on July 22<sup>nd</sup> 2022 (i.e. July 21<sup>st</sup> = 316 residents, July 22<sup>nd</sup> = 334 residents). The reasons for this are currently unknown, but may reflect <u>increased</u> funding to the Shelter System. Current data trends suggest that a smaller Delta resident population, similar to the one that existed prior to July 22<sup>nd</sup> 2022, will likely re-emerge. The increasing number of unavailable rooms at the Delta Homeless Shelter over the past month (**Figure 11**) shows the rapidly changing dynamics of the Delta Shelter population. The **loess** (**LO**cal regr**ESS**ion) fitted "*smoothed*" curve is a common non-parametric modelling tool used to fit a curve to a set of data points. The **Loess** model is "well defined" (i.e. residuals are constant over the range of x values) suggesting a "*real*" pattern or tend emerging from the data (i.e. increased rate of unavailable rooms). It is also important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is only one of 9 shelters and 17 supportive housing sites run by this charitable agency. Their mission statement is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*", particularly for a growing homeless **<a class="one" href="https://homefulltoronto.ca/">senior</a>** (>50 yrs) population that make up a large part of their ~2,300 clients. However, despite the continuing rise in the number of homeless persons, and recent infusion of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) into its shelter system, **Homes First** has unilaterally decided to transition the **Delta** site to a refugee only shelter (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of the shelter. Many have already faced punitive "*service restrictions*" without any appeals process. The current *ad hoc* appeals process typically results in the clients eviction at the end of the restriction period, which usually takes a week or more. It is important to note that during the time it takes to resolve the current appeals process the client is removed from the shelter and forced to find accommodations elsewhere (i.e. homeless). The recent rise in the number of **unavailable** rooms (**Fig. 11**) is likely an indicator of future evictions for many non-refugee residents at the Delta shelter. Note that the number of **unavailable rooms** (i.e. **UNAVAILABLE ROOMS** = **ROOMS CAPACITY FUNDING** - **ROOM OCCUPIED**) are rooms that the service provider still has designated funding to maintain (**Table 2**). In light of the recent increase in funding to the Shelter System one would expect that there should be safe shelter for all homeless people within the **GTA**. 
+**Figure 12 & 13. Homes First's Delta Hotel Shelter.** The two graphs above show the number of rooms at the Delta Homeless Shelter that are either occupied (**Figure 12**) or unoccupied (**Figure 13**) by a person. The marginal histogram in **Figure 12** shows that the plotted occupancy values fall within 2 distinct populations. These two populations of data points begin to emerge on July 22<sup>nd</sup> 2022 (i.e. July 21<sup>st</sup> = 316 residents, July 22<sup>nd</sup> = 334 residents). The reasons for this are currently unknown, but may reflect <u>increased</u> funding to the Shelter System. Current data trends suggest that a smaller Delta resident population, similar to the one that existed prior to July 22<sup>nd</sup> 2022, will likely re-emerge. The increasing number of unavailable rooms at the Delta Homeless Shelter over the past month (**Figure 13**) shows the rapidly changing dynamics of the Delta Shelter population. The **loess** (**LO**cal regr**ESS**ion) fitted "*smoothed*" curve is a common non-parametric modelling tool used to fit a curve to a set of data points. The **Loess** model is "well defined" (i.e. residuals are constant over the range of x values) suggesting a "*real*" pattern or tend emerging from the data (i.e. increased rate of unavailable rooms). It is also important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is only one of 9 shelters and 17 supportive housing sites run by this charitable agency. Their mission statement is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*", particularly for a growing homeless **<a class="one" href="https://homefulltoronto.ca/">senior</a>** (>50 yrs) population that make up a large part of their ~2,300 clients. However, despite the continuing rise in the number of homeless persons, and recent infusion of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) into its shelter system, **Homes First** has unilaterally decided to transition the **Delta** site to a refugee only shelter (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of the shelter. Many have already faced punitive "*service restrictions*" without any appeals process. The current *ad hoc* appeals process typically results in the clients eviction at the end of the restriction period, which usually takes a week or more. It is important to note that during the time it takes to resolve the current appeals process the client is removed from the shelter and forced to find accommodations elsewhere (i.e. homeless). The recent rise in the number of **unavailable** rooms (**Fig. 13**) is likely an indicator of future evictions for many non-refugee residents at the Delta shelter. Note that the number of **unavailable rooms** (i.e. **UNAVAILABLE ROOMS** = **ROOMS CAPACITY FUNDING** - **ROOM OCCUPIED**) are rooms that the service provider still has designated funding to maintain (**Table 3**). In light of the recent increase in funding to the Shelter System one would expect that there should be safe shelter for all homeless people within the **GTA**. 
 
 <br>
 
@@ -1077,11 +1297,13 @@ plot2035Kenly
 
 **3.** Gaetz, Stephen (2012). **<a class="one" href="https://www.homelesshub.ca/costofhomelessness">The Real Cost of Homelessness: Can We Save Money by Doing the Right Thing?</a>** Toronto: Canadian Homelessness Research Network Press.
 
-**4.** City of Toronto (2024). **<a class="one" href="https://open.toronto.ca/dataset/toronto-shelter-system-flow/">Toronto Shelter System Flow</a>** (**TSSF**).
+**4.** City of Toronto (2024). **<a class="one" href="https://open.toronto.ca/dataset/central-intake-calls/">Central Intake Calls</a>** (**CIC**).
 
-**5.** City of Toronto (2024). **<a class="one" href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity/">Daily Shelter and Overnight Service Occupancy and Capacity</a>** (**DSOSO**).
+**5.** City of Toronto (2024). **<a class="one" href="https://open.toronto.ca/dataset/toronto-shelter-system-flow/">Toronto Shelter System Flow</a>** (**TSSF**).
 
-**6.** City of Toronto - Housing Stability Service System Overview (2019). "*Housing + Homelessness Service Glossary*". https://www.toronto.ca/city-government/data-research-maps/research-reports/housing-and-homelessness-research-and-reports/housing-stability-service-system-map-and-terms/
+**6.** City of Toronto (2024). **<a class="one" href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity/">Daily Shelter and Overnight Service Occupancy and Capacity</a>** (**DSOSO**).
+
+**7.** City of Toronto - Housing Stability Service System Overview (2019). "*Housing + Homelessness Service Glossary*". https://www.toronto.ca/city-government/data-research-maps/research-reports/housing-and-homelessness-research-and-reports/housing-stability-service-system-map-and-terms/
 
 <br>
 <br>
