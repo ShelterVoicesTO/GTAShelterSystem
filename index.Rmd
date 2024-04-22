@@ -505,7 +505,7 @@ CICdf2 <- import(here("Datasets", "Central Intake Service Queue Data.csv"))
 
 <div align=center>
 **Figure 1: Toronto Central Intake Centre (CIC)**<br>
-**(Current Data: 2020/11/03 - 2024/02/29)**<br>
+**(Current Data: 2020/11/03 - 2024/03/31)**<br>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=7, fig.width=8, fig.align='center'}
 ### Plot Central Intake Call Information
@@ -538,7 +538,7 @@ CIC1plot
 
 <div align=center>
 **Figure 2: Toronto Central Intake Centre (CIC)**<br>
-**(Current Data: 2020/10/30 - 2024/02/29)**<br>
+**(Current Data: 2020/10/30 - 2024/03/31)**<br>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=7, fig.width=8, fig.align='center'}
 ### Plot Central Intake Call Information
@@ -610,7 +610,7 @@ rm(Demodf)
 
 <div align=center>
 **Figure 3: Toronto Shelter System Flow (TSSF)**<br>
-**(SMIS dataset: 2018/01 - 2024/02)**<br>
+**(SMIS dataset: 2018/01 - 2024/03)**<br>
 
 ```{r echo=FALSE, fig.height=7, fig.width=8, fig.align='center'}
 ### Bar Graph 3
@@ -631,24 +631,25 @@ plotDemodf3 <- ggplot(Demodf3) +
 plotDemodf3
 
 ```
+
 </div>
-**Figure 3. Toronto Shelter System Flow Data Total Numbers.** This plot shows the total number of "*actively*" homeless people according to **SMIS** records. This only pertains to those people who have used overnight services that use **SMIS** (i.e. excludes people who sleep outdoors or who use non-**SMIS** homeless services). The changing width of the plotted line reflects the changing dynamics of the homeless population over a 6 year period. Clearly the number of homeless people within the **GTA** is at an all time high and continues to trend upwards. The delayed nature of the collected data (i.e. published on the 15<sup>th</sup> day of every month) means that the next update (i.e. 2024-04-15) will include the records for March. Currently there are 11,173 "actively" homeless people that have been recorded via **SMIS**. Although far from complete, this report does appear (for some unknown reason) to be more extensive than the **DSOSO** records, since the latter reports only 9,946 homeless people for the same reporting period (Feb 15<sup>th</sup> 2024). This discrepancy in the number of reported homeless people is a bit disconcerting given that both datasets are based on the **SMIS** records.
+**Figure 3. Toronto Shelter System Flow Data Total Numbers.** This plot shows the total number of "*actively*" homeless people according to **SMIS** records. The **TSSF** data is only updated on a monthly basis (e.g. recent March 2024 data was updated on April 15<sup>th</sup>). The data is only based on those people who have used overnight services that are monitored by **SMIS** (i.e. excludes people who sleep outdoors or who use non-**SMIS** homeless services). The changing width of the plotted line reflects the changing dynamics of the homeless population over this 6 year period. Clearly the number of homeless people remains high within the **GTA**. The recent all time high of 11,173 "actively" homeless people for Feb/2024 is currently ebbing somewhat (10,833 Mar/2024). This is perhaps due to the warmer weather as many homeless people often escape the shelter system for safer environs. Although far from complete the **TSSF** records appear (for some unknown reason) to be more extensive than the **DSOSO** records since the latter dataset reports fewer homeless people (i.e. 9,748 for Mar 1<sup>st</sup>, 9,653 for Mar 15<sup>th</sup>, and 9,687 for Mar 31<sup>st</sup> 2024). This discrepancy in the number of homeless people is a bit disconcerting given that both datasets are reportedly based on the same **SMIS** records.
 
 <br>
 
 ```{r include=FALSE}
 ### Use "subset" function to select only "All Population" rows
-### for last monthly reporting period (i.e. Feb15th data ==> reported on Mar15th)
-Demodf4Feb <- subset(Demodf4, Date == "2024-02-01")
-Demodf4FebChr <- subset(Demodf4Feb, population_group == "Chronic")
-myAges <- select(Demodf4Feb, 3,10:14)
+### for last monthly reporting period (i.e. March data ==> reported on Apr15th)
+Demodf4Mar <- subset(Demodf4, Date == "2024-03-01")
+Demodf4MarChr <- subset(Demodf4Mar, population_group == "Chronic")
+myAges <- select(Demodf4Mar, 3,10:14)
 
 ### Apply **rowSums** function to select column values
 ### Add new column/variable named "row_sum" 
 myAges$row_sum <- rowSums(myAges[ , c(2:6)], na.rm=TRUE)
 
 ### Pivot-long ==> move columns to rows and rename columns 
-mydf <- select(Demodf4FebChr, 10:14)
+mydf <- select(Demodf4MarChr, 10:14)
 mydf2 <- mydf %>% pivot_longer(cols = starts_with("age"),
                                names_to = "AgeGr",
                                values_to = "counts")
@@ -657,11 +658,14 @@ mydf2 <- mydf %>% pivot_longer(cols = starts_with("age"),
 mytab <- mydf2 %>% mutate(prop = 100*(counts/sum(counts)))
 mytab2 <- mytab %>% kable()
 
+Demodf4Groups <- select(Demodf4Mar, 1:3,9:14)
+Demodf4Groups$GTEage25 <- rowSums(Demodf4Groups[ , c(7:9)], na.rm=TRUE)
+
 ```
 
 <div align=center>
 **Figure 4: Toronto Shelter System Flow (TSSF)**<br>
-**(SMIS dataset: 2018/01 - 2024/02)**<br>
+**(SMIS dataset: 2018/01 - 2024/03)**<br>
 
 ```{r echo=FALSE, fig.height=7, fig.width=8, fig.align='center'}
 ### Graph 4 - Demographics of Homeless Population in GTA
@@ -695,7 +699,7 @@ DemoPlot4
 ```
 
 </div>
-**Figure 4. Demographics of TSSF dataset.** The above plot shows the number of "*actively*" homeless people classified as either **(i)** Chronically homeless, **(ii)** a member of a homeless Family, **(iii)** Indigenous, **(iv)** a non-refugee, **(v)** a refugee, **(vi)** a single adult (> 24 yrs), or a **(vii)** Youth (16-24 yrs) who is not a member of an homeless family. Like **Figure 3**, the changing width of the plotted line reflects the changing dynamics of each homeless group. Currently (Feb 2024) the largest homeless demographic group is single adults (Note: 7579 single adults, or 67.8%, compare to 2538 family members, or 22.7%, and 1056 youths, or 9.5%), who make up ~77% (4590/5940) of the chronic homeless population. The population of homeless refugees (5768, or 51.6%) slightly out numbers the non-refugee homeless population (5405, or 49.4%). Nevertheless both refugee and non-refugee populations have been trending upwards since December 2023.
+**Figure 4. Demographics of TSSF dataset.** The above plot shows the number of "*actively*" homeless people classified as either **(i)** Chronically homeless, **(ii)** a member of a homeless Family, **(iii)** Indigenous, **(iv)** a non-refugee, **(v)** a refugee, **(vi)** a single adult (> 24 yrs), or a **(vii)** Youth (16-24 yrs) who is not a member of an homeless family. Like **Figure 3**, the changing width of the plotted line reflects the changing dynamics of each homeless group. Currently (Mar 2024) the largest homeless demographic group is single adults (Note: 7266 single adults, or 67.1%, compared to 2555 family members, or 23.6%, and 1012 youths, or 9.3%). Adults (> 24 yrs) also make up ~77% (4835/6288) of the chronic homeless population. The homeless refugee population (5805, or 53.6%) slightly out numbers the homeless non-refugee population (5028, or 46.4%).
 
 <br>
 
@@ -703,7 +707,7 @@ DemoPlot4
 
 ```{r include=FALSE}
 ### Import data file
-DSOSOdt <- import(here("Datasets", "DSOSO_2021to10Apr2024.csv"))
+DSOSOdt <- import(here("Datasets", "DSOSO_21Apr2024.csv"))
 
 ### Change **class** of column values from *numeric* to *character* 
 ### Namely: ORG_ID, SHELTER_ID, LOCATION_ID, PROGRAM_ID
@@ -815,7 +819,7 @@ rm(df1, df2, df2.NA)
 
 <div align=center>
 **Figure 5: GTA Shelter Population (DSOSO)**<br>
-**(Period: 2021/01/01 - 2024/04/10)**<br>
+**(Period: 2021/01/01 - 2024/04/21)**<br>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=7, fig.width=8, fig.align='center'}
 ### ***********************************************************
@@ -851,7 +855,7 @@ plotResSumly
 ```
 
 </div>
-**Figure 5. Total Shelter Population within the Greater Toronto Area (GTA).** The above plot shows the total number of daily shelter users for the period spanning 2021-01-01 to 2024-04-10. The number of shelter occupants have increased by more than 60% during this time.
+**Figure 5. Total Shelter Population within the Greater Toronto Area (GTA).** The above plot shows the total number of daily shelter users for the period spanning 2021-01-01 to 2024-04-21. The number of shelter occupants have increased by more than 63% during this time.
 
 <br>
 <br>
@@ -895,14 +899,14 @@ plotCTly
 ```
 
 </div>
-**Figure 6. Shelter Population per GTA region.** The plot shows the total number of shelter users within different parts of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) for the past 39 months (2021-01-01 to 2024-04-10). The data reveals that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph in **Figure 7**).
+**Figure 6. Shelter Population per GTA region.** The plot shows the total number of shelter users within different parts of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) for the past ~40 months (2021-01-01 to 2024-04-21). The data reveals that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph in **Figure 7**).
 
 <br>
 <br>
 
 <div align=center>
 **Figure 7: GTA Shelter Population (DSOSO)**<br>
-**(Regional Numbers: 2024-04-10)**<br>
+**(Regional Numbers: 2024-04-21)**<br>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,}
 ### *********************************************************
@@ -911,8 +915,8 @@ plotCTly
 
 ### Use "group by" and "sum" functions to sum up observations
 ### Total Population per "CITY"
-df240329 <- subset(df3.NA, OCCUPANCY_DATE == "2024-04-10")
-CityTots <- df240329 %>%
+df240421 <- subset(df3.NA, OCCUPANCY_DATE == "2024-04-21")
+CityTots <- df240421 %>%
   group_by(OCCUPANCY_DATE, CITY) %>%
   summarise(n_observ = n(), sum_Users = sum(SERVICE_USER_COUNT))
 
@@ -939,7 +943,7 @@ plotCityTotsly
 ```
 
 </div>
-**Figure 7. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-04-10) number of shelter occupants within each of the designated **GTA** regions. Toronto (67.5%) and North York (18.9%) shelter the majority of homeless people, while Scarborough (8.9%), Etobicoke (4.1%), and Vaughan (0.6%) collectively house less than 14% of the homeless population.  
+**Figure 7. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-04-10) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.5%) and North York (18.3%) shelter the majority of homeless people, while Scarborough (8.7%), Etobicoke (3.9%), and Vaughan (0.6%) collectively house less than 14% of the homeless population.
 
 <br>
 <br>
@@ -983,7 +987,7 @@ plotSectorly
 ```
 
 </div>
-**Figure 8. Homeless Demographics within the GTA Region.** The above graph looks at some homeless demographics within the **GTA**. The number of individuals within each of the designated homeless groups (i.e. **men**, **women**, **families**, **Youth** and **Mixed adults**) have rapidly increased over the last 3 years. Also, the size of the **Mixed adult** population has fluctuated quite dramatically over the past two years. Reasons for this fluctuations are currently unknown.
+**Figure 8. Homeless Demographics within the GTA Region.** The above graph looks at some homeless demographics within the **GTA**. The number of individuals within each of the designated homeless groups (i.e. **men**, **women**, **families**, **Youth** and **Mixed adults**) have rapidly increased over the last 3 years. Also, the size of the **Mixed adult** population has fluctuated quite dramatically over the past two years. Possible reasons for this may be due to the fluctuating number of designated "*mixed adult*" shelter spaces. For example, some service providers, like Homes First, are unilaterally transitioning some of their shelter spaces (e.g. Delta Hotel Shelter, Scarborough) to a select homeless population (i.e. refugee only) at the expense of other homeless people (i.e. non-refugees mixed adult population). Note that the fate of the Delta non-refugee homeless population has largely being determined by Ward 22 councillor Nick Mantas, who's NIMBY motion to rid the Delta shelter of non-refugee residents was passed by Toronto City Council meeting back in Feb 2024.
 
 <br>
 <br>
@@ -1086,7 +1090,7 @@ plotSTtotalsly
 ```
 
 </div>
-**Figure 10. Homeless Overnight Service Types within the GTA.** Homeless individuals within the **GTA** can access different types of overnight services, including: **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. There are a few other **Service Types** offered, but they are ill-defined and accessed by very few people. As of March 29<sup>th</sup> 2024 the vast majority of **Service Types** are emergency **Shelters** (4815 of 9587, or 50.2%) and **Motel/Hotel** (4093 of 9587, or 42.7%) services. Unfortunately, programs that ultimately lead to <u>permanent</u> housing are virtually non-existent.
+**Figure 10. Homeless Overnight Service Types within the GTA.** Homeless individuals within the **GTA** can access different types of overnight services, including: **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. There are a few other **Service Types** offered, but they are ill-defined and accessed by very few people. As of April 21<sup>st</sup> 2024 the vast majority of **Service Types** are emergency type **Shelter** (4845, or 48.9%) and **Motel/Hotel** (4461, or 45%) services. Unfortunately, services that help homeless people transition to safer and more affordable permanent housing are largely non-existent within the Toronto Shelter system.
 
 <br>
 <br>
@@ -1134,13 +1138,13 @@ plotdf3NAPAly
 ```
 
 </div>
-**Figure 11. Homeless Program Area within the GTA.** Homeless programs can be categorized as either: **(i) Base Shelter**, **(ii) Base Program - Refugee**, **(iii) Temporary Refugee Response**, **(iv) COVID-19 Response**, or **(v) Winter Response**. Collectively they can be classified as either regular (i.e. year-round) or temporary programs. The rising numbers of homeless refugees and along with the long-term health and economic impacts of the COVID-19 pandemic appears to be driving the growing homeless population within the **GTA**. Even the cyclic **Winter Response** program, which normally spikes during the cold season, experienced a considerable rise in program users, much more so than in previous years.
+**Figure 11. Homeless Program Area within the GTA.** Homeless programs can be categorized as either: **(i) Base Shelter**, **(ii) Base Program - Refugee**, **(iii) Temporary Refugee Response**, **(iv) COVID-19 Response**, or **(v) Winter Response**. Generally they can be classified as either regular (i.e. year-round) or temporary programs. The rising numbers of homeless refugees and along with the long-term health and economic impacts of the COVID-19 pandemic appears to be driving the growing homeless population within the **GTA**. Even the cyclic **Winter Response** program, which normally spikes during the cold season, experienced a considerable rise in the number of homeless people during the last winter season.
 
 <br>
 <br>
 
 <div align=center>
-**Figure 12: Homes First - Mixed Adult, COVID-19 Program, Delta Hotel Shelter**<br>
+**Figure 12: Homes First - Mixed Adult COVID-19 Program, Delta Hotel Shelter**<br>
 **(DSOSO: # Occupants)**<br>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width='90%', fig.align='center'}
@@ -1223,7 +1227,7 @@ plot3bly
 <br>
 
 <div align=center>
-**Figure 13: Homes First - Mixed Adult, COVID-19 Program, Delta Hotel Shelter**<br>
+**Figure 13: Homes First - Mixed Adult COVID-19 Program, Delta Hotel Shelter**<br>
 **(DSOSO: # Unavailable Rooms)**<br>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='100%', fig.align='center'}
@@ -1231,7 +1235,7 @@ plot3bly
 ### ** GRAPH 13 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
 ### *******************************************************************
 plot16011 <- df3NAPID16011 %>%
-  filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-04-10") %>%
+  filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-04-21") %>%
   ggplot() +
   aes(x = OCCUPANCY_DATE,
       y = Rooms_Unavailable,
@@ -1257,7 +1261,7 @@ plot2035Kenly
 ```
 
 </div>
-**Figure 12 & 13. Homes First's Delta Hotel Shelter.** The two graphs above show the number of rooms at the Delta Hotel Shelter that are either occupied (**Figure 12**) or unoccupied (**Figure 13**). Although the number of occupants have been steadily decreasing between Feb 5<sup>th</sup> to April 4<sup>th</sup>, the recent influx of refugees has rapidly corrected these falling numbers. These rapid changes in the number of people sheltered at the Delta Hotel over the past 2 months is also reflected in the number of unavailable rooms at the shelter (**Figure 13**). The fitted **Loess** (**LO**cal regr**ESS**ion) curve is fairly <u>well defined</u> (i.e. residuals are fairly constant over the chosen range of x values, with the exception of the last three data points which have relatively high negative residual values). Nevertheless, it is important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is, according to **DSOSO** records, a <u>designated</u> mixed adult (Sector) shelter that falls under the emergency COVID-19 Program. So it is by definition <u>not</u> a refugee-only shelter space. According to **Homes First**, which runs many other additional shelter and supportive housing sites, their mission is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*". However, despite the continuing rise in the number of homeless persons in Toronto (**Fig. 3**,**5**,**8**,**9**), and the recent influx of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) to support the Toronto shelter system, **Homes First** has unilaterally decided to transition the **Delta** Hotel Shelter to a refugee only site (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of the shelter. Many have already faced punitive "*service restrictions*" without any appeals process. Recent updates to the system has generated a new "*faux*" appeals process that typically results in the clients eviction at the end of the restriction period. It is important to note that during the time it takes to resolve the appeal process the client is removed from the shelter and forced to find accommodations on their own (i.e. homeless). Homes First's exclusion of the Delta residents from any decision making process, one that directly impacts their immediate and future well being, is imprudent and overtly punitive in nature. Many residents are afraid that they will be forced to move back onto the streets, or to some unsafe open congregate shelter space. The lack of transparency about decisions that directly affects the lives of Delta residents has only heightened their fears, anxiety and distrust of Homes First. This has only been exacerbated by the lack of housing workers. Many Delta residents, including those who have resided here for over 3 years, have never even been contacted by a Homes First housing worker. The current drive to restrict shelter services to refugees at the expense of non-refugees is perplexing given the recent influx of Federal funding into the Toronto Shelter system. Available resources, if used wisely, could safely house homeless people within the **GTA** without resorting to an outdated, expensive and dehumanizing emergency shelter system. (**Note:** number of **UNAVAILABLE ROOMS** = **ROOMS CAPACITY FUNDING** - **ROOM OCCUPIED**, **Table 3**). 
+**Figure 12 & 13. Homes First's Delta Hotel Shelter.** These two graphs show the number of rooms at the Delta Hotel Shelter that are either occupied (**Figure 12**) or unoccupied (**Figure 13**). Although the number of occupants have been steadily decreasing between Feb 5<sup>th</sup> to April 4<sup>th</sup>, the recent influx of refugees has rapidly corrected these falling numbers. The rapid changes in the number of people sheltered at the Delta Hotel over the past 2 months is also reflected in the number of unavailable rooms at the Delta shelter (**Figure 13**). The fitted **Loess** (**LO**cal regr**ESS**ion) curve is fairly <u>well defined</u> (i.e. residuals are fairly constant over the chosen range of x values), which suggests "*real*" trends in the data (e.g. rapid increase in # unavailable rooms between Feb 5th and April 4th, followed by a quick reversal of this trend between April 4th to present). Nevertheless, it is important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is, according to **DSOSO** records, a <u>designated</u> mixed adult (Sector) shelter that falls under the emergency COVID-19 Program. So it is by definition <u>not</u> a refugee-only shelter space. According to **Homes First**, which runs many other additional shelter and supportive housing sites, their mission is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*". However, despite the continuing rise in the number of homeless persons in Toronto (**Fig. 3**,**5**,**8**,**9**), as well as the recent influx of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) to support the Toronto shelter system, **Homes First** has unilaterally decided to transition the **Delta** Hotel Shelter to a refugee only space (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of the shelter. Many have already faced punitive "*service restrictions*" without any appeals process. Even the recent updated appeals process typically results in the eviction of the client at the end of the restriction period. It is important to note that during the time it takes to resolve the appeal process the client is removed from the shelter and forced to find accommodations on their own (i.e. left homeless). Homes First's exclusion of the Delta residents from any decision making process, one that directly impacts their immediate and future well being, is both imprudent and overtly punitive in nature. Many residents are afraid that they will be forced to move back onto the streets, or to some unsafe open congregate shelter space. The non-transparent nature of this decision making process has only heightened the homeless residents' fears, anxiety and distrust of Homes First. This situation has only been exacerbated by the lack of available housing workers who are suppose to be working with the Delta's homeless residents. The current drive to transition the Delta hotel to a refugee-only shelter, at the expense of the non-refugee homeless population, is perplexing given the recent influx of Federal dollars into the Toronto shelter system. 
 
 <br>
 <br>
