@@ -1,14 +1,14 @@
 ---
 title: "Toronto Shelter System and Homeless Resources"
-author: "Voices 4 Unhoused Liberation"
+author: "V4UL"
 date: "`r Sys.Date()`"
 output: 
   flexdashboard::flex_dashboard:
+    logo: V4UL_nav_logo_48px.png
     orientation: columns
     navbar:
         - { icon: "fa-solid fa-house", href: "https://www.unhousedliberation.ca/", align: right}
         - { icon: "fa-envelope", href: "sheltervoices@gmail.com", align: right}
-        - { icon: "fa-twitter", href: "http://twitter.com/sheltervoicesto", align: right}
         - { icon: "fa-instagram", href: "https://www.instagram.com/shelterhotelsto/", align: right}
   vertical_layout: fill
     
@@ -161,7 +161,41 @@ body{font-size: 14pt;}
 ```{r setup, include=FALSE}
 
 library(pacman)
-pacman::p_load(flexdashboard, dplyr, tidyverse, leaflet, htmltools, sp, sf, scales, here, ggplot2, ggpubr, stringr, ggExtra, cowplot, lubridate, kableExtra, fs, skimr, janitor, purrr, rio, shiny, plotly, patchwork, forcats, naniar, DescTools)
+pacman::p_load(
+  flexdashboard,
+  ### 1.3.0 packages includes:
+  ### "ggplot2" grammar of Graphics
+  ### "dplyr" functions (select, filter) for data manipulation
+  ### "tidyr" set of functions to tidy data
+  ### "readr" read rectangular csv data
+  ### "purrr" for working with functions and vectors
+  ### "tibble" quick simple data frame
+  ### "stringr" functions for manipulating character strings
+  ### "forcats" tools for dealing with "factors"
+  tidyverse,
+  leaflet,    ### "Leaflet" creates map widget with "htmlwidgets"
+  htmltools,  ### use html code to customize UI
+  sp,     ### spatial data
+  sf,     ### "simple features" deals with 'spacial type' data (ie. st_sp)
+  scales, ### scales mapped to 'aes' function (breaks, axes labels, legends)
+  rio,        ### "rio" importing data 
+  here,       ### creating relative paths to data files 
+  ggExtra,    ### add marginal histograms/boxplots/density plots to 
+              ### 'ggplot2' scatterplots
+  ggpubr,     ### create customized 'ggplot2' for publication
+  lubridate,  ### deal with "date" type values
+  kableExtra, ### add features to "kable" output using 'pipe' operator
+  fs,         ### file system (e.g. 'dir_ls()' = list files)
+  skimr,      ### display summary stats (e.g. skim(iris))
+  janitor,    ### examine, clean, apply stats to data frames
+              ### e.g. convert_to_NA(data, strings)
+  shiny,      ### interactive web applications
+  plotly,     ### interactive graphs/plots
+  patchwork,  ### combine separate ggplots into same graphic
+  cowplot,    ### create multipanel plots
+  naniar,     ### data structures, functions facilitate plotting missing values
+  DescTools   ### misc stats 'description' functions, wrappers for data
+  )
 
 ```
 
@@ -185,7 +219,6 @@ ToHRes.data$row_sum <- rowSums(ToHRes.data[ , c(9:18)], na.rm=TRUE)
 
 ### convert class of row_sum ==> numeric to integer
 ToHRes.data %>% mutate(row_sum = as.integer(row_sum))
-
 
 ```
 
@@ -291,7 +324,6 @@ Column {.tabset .tabset-fade}
 
 ### GTA Shelter System - Population in Crisis
 
-<br>
 <br>
 
 **Homelessness**, as defined by **C**anadian **O**bservatory on **H**omelessness (**COH**, formerly the Canadian Homelessness Research Network):<br>
@@ -524,7 +556,7 @@ CIC1plot <- ggplot(CICdf1) +
         plot.background = element_rect(fill = "white"),
         panel.grid.minor = element_blank(),
         legend.justification = c(1,0),
-        legend.position = c(0.4,0.53))
+        legend.position = c(0.355,0.53))
 
 CIC1plot
 
@@ -943,7 +975,7 @@ plotCityTotsly
 ```
 
 </div>
-**Figure 7. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-04-10) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.5%) and North York (18.3%) shelter the majority of homeless people, while Scarborough (8.7%), Etobicoke (3.9%), and Vaughan (0.6%) collectively house less than 14% of the homeless population.
+**Figure 7. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-04-21) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.5%) and North York (18.3%) shelter the majority of homeless people, while Scarborough (8.7%), Etobicoke (3.9%), and Vaughan (0.6%) collectively house less than 14% of the homeless population.
 
 <br>
 <br>
