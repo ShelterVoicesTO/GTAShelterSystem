@@ -16,6 +16,26 @@ output:
 
 <style>
 
+/* ======================== */
+/*         DIV CSS          */
+/* ======================== */
+
+.DivCenter80 {
+  margin: auto;
+  width: 80%;
+  padding: 5px;
+  text-align: center;
+  }
+
+
+.DivCenter90 {
+  margin: auto;
+  width: 90%;
+  padding: 2px;
+  text-align: center;
+  }
+
+
 /* ========================== */
 /*         TABLE CSS          */
 /* ========================== */
@@ -163,6 +183,7 @@ body{font-size: 14pt;}
 library(pacman)
 pacman::p_load(
   flexdashboard,
+  flextable, ### table cell formatting properties
   ### 1.3.0 packages includes:
   ### "ggplot2" grammar of Graphics
   ### "dplyr" functions (select, filter) for data manipulation
@@ -201,13 +222,13 @@ pacman::p_load(
 
 ```
 
-Interactive Map {data-icon="ion-stats-bars"}
+GTA Map - Homeless Resources {data-icon="ion-stats-bars"}
 ===================================== 
 
-Column {data-width=550}
+Column {data-width=500}
 -----------------------------------------------------------------------
 
-### <b>GTA Map of Homeless Resources</b>
+### <b>Map of Homeless Resources</b>
 
 ```{r include=FALSE}
 #### read in data file
@@ -221,7 +242,6 @@ ToHRes.data$row_sum <- rowSums(ToHRes.data[ , c(9:18)], na.rm=TRUE)
 ToHRes.data %>% mutate(row_sum = as.integer(row_sum))
 
 ```
-
 
 ```{r include=FALSE}
 #### Add different provider tiles (i.e. layers)
@@ -276,7 +296,6 @@ ToHRes.data$Open <- iconv(x = ToHRes.data$Open,
 
 ```
 
-
 ```{r}
 #### Add markers with custom labels for each Resource site
 TOmap2 <- TOmap %>% addMarkers(data = ToHRes.data,
@@ -298,23 +317,141 @@ TOmap2
 
 ```
 
-
-
-
-Column {data-width=400}
+Column {data-width=500}
 -----------------------------------------------------------------------
 
-### <b>Table: GTA Homeless Resources</b>
+### <b>Table of Homeless Resources</b>
 
 ```{r}
-
 # select columns for new df to create table
 ToHRes.data1 <- select(ToHRes.data, 2,3,4,19,20)
 
-ToHRes.data1 %>% knitr::kable()
+set_flextable_defaults(font.size = 11,
+                       font.color = "black",
+                       border.color = "black",
+                       padding = 2,
+                       table.layout = "autofit")
+
+ft1 <- flextable(ToHRes.data1) %>% autofit()
+ft1 <- set_table_properties(x = ft1,
+                            opts_html = list(
+                              scroll = list(freeze_first_column = TRUE)))
+
+ft1 <- theme_zebra(ft1)
+ft1
 
 ```
 
+<br>
+
+GTA Map - Homeless Shelters (2024-05-03) {data-icon="ion-stats-bars"}
+===================================== 
+
+Column {data-width=475}
+-----------------------------------------------------------------------
+
+### <b>Map of Homeless Shelters</b>
+
+```{r include=FALSE}
+#### read in data file
+TS.data <- readr::read_csv(here("Datasets", "DSOSO_4May2024.csv"))
+TS2.data <- select(TS.data, 4:19)
+
+```
+
+```{r}
+#### Add different provider tiles (i.e. layers)
+#### Assign each map layer a name
+#### Add a layer control (top right)
+TSmap <- leaflet() %>%
+  addProviderTiles("OpenStreetMap",
+                   group = "OpenStreetMap") %>%
+  addProviderTiles("Esri.WorldStreetMap",
+                   group = "Esri.WorldStreetMap") %>%
+  addProviderTiles("CartoDB.Positron",
+                   group = "CartoDB.Positron") %>%
+  addProviderTiles("Esri.WorldImagery",
+                   group = "Esri.WorldImagery") %>%
+  addLayersControl(baseGroups = c("OpenStreetMap",
+                                  "Esri.WorldStreetMap",
+                                  "CartoDB.Positron",
+                                  "Esri.WorldImagery"),
+                   position = "topleft")
+
+#### Centre the Map view to Yonge & Bloor, and set the zoom level
+TSmap <- TSmap %>% setView(-79.38681892548695,43.670216153303066,
+                   zoom = 12)
+
+#### Add markers with custom labels for each Resource site
+TSmap2 <- TSmap %>% addMarkers(data = TS2.data,
+                               label = paste("Name: ",
+                                             TS2.data$LOCATION_NAME,
+                                             "<br>",
+                                             "Location: ",
+                                             TS2.data$ADDRESS,
+                                             "<br>",
+                                             "Program ID: ",
+                                             TS2.data$PROGRAM_ID,
+                                             "<br>",
+                                             "Sector: ",
+                                             TS2.data$SECTOR,
+                                             "<br>",
+                                             "Program Model: ",
+                                             TS2.data$PROGRAM_MODEL,
+                                             "<br>",
+                                             "Service Type: ",
+                                             TS2.data$SERVICE_TYPE,
+                                             "<br>",
+                                             "Program Area: ",
+                                             TS2.data$PROGRAM_AREA,
+                                             "<br>",
+                                             "# Occupants: ",
+                                             TS2.data$SU_count) %>%
+                                 lapply(htmltools::HTML))
+
+# Call/Show Map
+TSmap2
+
+
+```
+
+Column {data-width=525}
+-----------------------------------------------------------------------
+
+### <b>Table of Homeless Shelters (2024-05-03)</b>
+
+```{r}
+# select columns for new df to create table
+TS2.data1 <- select(TS2.data, 3,4,11:15)
+
+### Change Column Names using **rename** function of "dplyr" package
+NewOldCol <- c(Name = "LOCATION_NAME", Address = "ADDRESS", Sector = "SECTOR", Model = "PROGRAM_MODEL",  Service = "SERVICE_TYPE", Area = "PROGRAM_AREA", Occupants = "SU_count")
+TS2.data1 <- rename(TS2.data1, all_of(NewOldCol))
+
+set_flextable_defaults(font.size = 11, font.color = "black",
+                       border.color = "black", padding = 2,
+                       table.layout = "autofit")
+
+ft2 <- flextable(TS2.data1) %>% autofit()
+ft2 <- set_table_properties(x = ft2,
+                            opts_html = list(
+                              scroll = list(freeze_first_column = TRUE)))
+
+ft2 <- theme_zebra(ft2)
+ft2
+
+# ft2 <- flextable(TS2.data1) %>%
+#  align(align = "center", part = "header") %>%
+#  align(j = 7, align = "center", part = "body") %>%
+#  bold(bold = T, part = "header")
+
+# ft2 <- set_table_properties(x = ft2,
+#                            opts_html = list(
+#                              scroll = list(freeze_first_column = TRUE)))
+
+```
+
+<br>
 
 Information {data-icon="fa-info-circle"}
 ===================================== 
@@ -481,8 +618,6 @@ CanPT.plot <- ggplot(CanPT.pit) +
     nrow = 5L
   )
 
-ggsave("CanPT.plot.png", width = 9, height = 7)
-
 ### Create Interactive Plot with "ggplotly" package
 CanPT.plotly <- ggplotly(CanPT.plot)
 CanPT.plotly <- CanPT.plotly %>% toWebGL()
@@ -569,197 +704,105 @@ Information in this report is based on a number of Shelter and Homelessness reco
 
 <br>
 
-<div align=center>
-<!----------------------------------------------------------------->
-<!---------- TABLE 1 - CENTRAL INTAKE CALL CENTRE TERMS ----------->
-<!----------------------------------------------------------------->
-<a id="Tab1"> </a>
-<table class="Table">
-    <thead>
-      <tr>
-        <td colspan="4"><span id="BBlk20">TABLE 1. CENTRAL INTAKE CALL CENTRE FEATURES</span></td>
-      </tr>
-    <thead>
-    <thead>
-      <tr>
-        <th class="f18" colspan="1"><span id="Blk">Term</span><sup>7</sup></th>
-        <th class="f18" colspan="3"><span id="Blk">Definition</span><sup>7</sup></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Date</span></td>
-        <td style="text-align:left">Data recorded up until "close-out", which is completed at 4:00 AM, is included in the daily reports (i.e. Jan 2<sup>nd</sup> 4 AM data would be included as part of Jan 1<sup>st</sup> operational record).</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Unmatched Callers</span></td>
-        <td style="text-align:left">Total individuals who were <u>not</u> able to be offered a space over the past 24 hours, at time of closeout at 4:00 AM.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Single Call</span></td>
-        <td style="text-align:left">Number of <u>unmatched callers</u> who had called Central Intake a single time on this date.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Repeat Caller</span></td>
-        <td style="text-align:left">Number of <u>unmatched callers</u> who had called Central Intake two or more times on this date.</td>
-      </tr>
-    </tbody>
-</table>
+<div class="DivCenter90">
+<b>TABLE 1: CENTRAL INTAKE CALL CENTRE FEATURES</b><br>
+```{r echo=FALSE, error=FALSE}
+#### read in data file
+Tab.data <- readr::read_csv(here("Datasets", "CIC_TSSF_DSOSO_Table_Terms.csv"))
 
-<!--------------------------------------------------------->
-<!--------------------------------------------------------->
+### select columns for "CIC" Table
+CIC.Tab <- slice(Tab.data, 1:4)
+
+set_flextable_defaults(font.size = 12, font.color = "black",
+                       border.color = "black",
+                       padding = 2, table.layout = "autofit")
+
+CICft <- flextable(CIC.Tab) %>%
+  bold(bold = T, part = "header") %>%
+  bold(bold = T, i = 1:4, j = 1, part = "body") %>%
+  align(align = "center", part = "header") %>%
+  bg(part = "header", bg = "gray60") %>%
+  bg(i = c(1,3), part = "body", bg = "gray90") %>% 
+  autofit()
+
+CICft
+
+```
+
+<br>
+
+<b>TABLE 2: TSSF DATA FEATURES</b><br>
+```{r echo=FALSE, error=FALSE}
+### select columns for "TSSF" Table
+TSSF.Tab <- slice(Tab.data, 5:15)
+
+# Ensure VALID UTF-8 encoded characters in the `Name` column
+Encoding(x = TSSF.Tab$Term) <- "UTF-8"
+Encoding(x = TSSF.Tab$Definition) <- "UTF-8"
+
+# replace all non UTF-8 character strings with an empty space
+TSSF.Tab$Definition <- iconv(x = TSSF.Tab$Definition,
+                          from = "UTF-8",
+                          to = "UTF-8",
+                          sub = "")
+
+set_flextable_defaults(font.size = 12,
+                       font.color = "black",
+                       border.color = "black",
+                       padding = 2,
+                       table.layout = "autofit")
+
+TSSFft <- flextable(TSSF.Tab) %>%
+  bold(bold = T, part = "header") %>%
+  bold(bold = T, i = 1:11, j = 1, part = "body") %>%
+  align(align = "center", part = "header") %>%
+  bg(part = "header", bg = "gray60") %>%
+  bg(i = c(1,3,5,7,9,11), part = "body", bg = "gray90") %>% 
+  autofit()
+
+TSSFft
+
+```
+
+<br>
+
+<b>TABLE 3: DSOSO DATA FEATURES</b><br>
+```{r echo=FALSE, error=FALSE}
+### select columns for "DSOSO" Table
+DSOSO.Tab <- slice(Tab.data, 16:26)
+
+# Ensure VALID UTF-8 encoded characters in the `Name` column
+Encoding(x = DSOSO.Tab$Term) <- "UTF-8"
+Encoding(x = DSOSO.Tab$Definition) <- "UTF-8"
+
+# replace all non UTF-8 character strings with an empty space
+DSOSO.Tab$Definition <- iconv(x = DSOSO.Tab$Definition,
+                          from = "UTF-8",
+                          to = "UTF-8",
+                          sub = "")
+
+set_flextable_defaults(font.size = 12,
+                       font.color = "black",
+                       border.color = "black",
+                       padding = 2,
+                       table.layout = "autofit")
+
+DSOSOft <- flextable(DSOSO.Tab) %>%
+  bold(bold = T, part = "header") %>%
+  bold(bold = T, i = 1:11, j = 1, part = "body") %>%
+  align(align = "center", part = "header") %>%
+  bg(part = "header", bg = "gray60") %>%
+  bg(i = c(1,3,5,7,9,11), part = "body", bg = "gray90") %>% 
+  autofit()
+
+DSOSOft
+
+```
+
 </div>
 
 <br>
 <br>
-
-<div align=center>
-<!-------------------------------------------------------------->
-<!---------- TABLE 2 - TSSF DATASET CATEGORIES/TERMS ----------->
-<!-------------------------------------------------------------->
-<a id="Tab2"> </a>
-<table class="Table">
-    <thead>
-      <tr>
-        <td colspan="4"><span id="BBlk20">TABLE 2. TSSF DATA FEATURES</span></td>
-      </tr>
-    <thead>
-    <thead>
-      <tr>
-        <th class="f18" colspan="1"><span id="Blk">Term</span><sup>8</sup></th>
-        <th class="f18" colspan="3"><span id="Blk">Definition</span><sup>8</sup></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Chronic homelessness</span></td>
-        <td style="text-align:left">These are people who meet one of the two following criteria, as per the federal definition of chronic homelessness. The person has recorded a minimum of 180 overnight stay in the past year (365 days); or the person has recurrent overnight stays over the past three years with a cumulative duration of at least 546 nights.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Youth</span></td>
-        <td style="text-align:left">These are unaccompanied youth who are between the ages of 16 and 24 by the last date of the reporting month. They are not members of a "<b>family</b>", which is another term use in these records that refers to individuals who stay in a family designated overnight service.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Single Adult</span></td>
-        <td style="text-align:left">An individual who is classified as <u>neither</u> a <b>youth</b>, nor a member of a </b>family</b></td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Refugees</span></td>
-        <td style="text-align:left">People who identify either as a "refugee" upon intake to the shelter system, or who enter the system via a designated refugee shelter program. It applies to all household members as answered by the head of the household.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Indigenous</span></td>
-        <td style="text-align:left">An individual who self-identifies as First Nations (status, non-status, treaty, non-treaty), Metis or Inuit in at least one of the intakes completed in <b>SMIS</b>.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">All Populations</span></td>
-        <td style="text-align:left">This refers to the total number of individuals represented in the report without any demographic breakdown.</td>
-      </tr>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Returned from Housing</span></td>
-        <td style="text-align:left">Individuals who were previously recorded as "Moved to Permanent Housing" but returned to an overnight service in the reporting month.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Newly Identified</span></td>
-        <td style="text-align:left">People who entered the shelter system for the first time.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Moved to Housing</span></td>
-        <td style="text-align:left">People who were using the shelter system and have moved to permanent housing.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Returned to Shelter</span></td>
-        <td style="text-align:left">People who were previously using the shelter system, then did not use the system for 3 months or longer, and have now returned. Some other communities may call this indicator "Returned from Inactive".</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">Inactive</span></td>
-        <td style="text-align:left">People who were using the shelter system previously, but have not used the shelter system in the past three months. Some other communities may call this indicator “Moved to Inactive”.</td>
-      </tr>
-    </tbody>
-</table>
-
-<!--------------------------------------------------------->
-<!--------------------------------------------------------->
-</div>
-
-<br>
-<br>
-
-<div align=center>
-<!--------------------------------------------------------->
-<!---------- TABLE 3 - DSSO DATASET CATEGORIES/TERMS ----------->
-<!--------------------------------------------------------->
-<a id="Tab3"> </a>
-<table class="Table">
-    <thead>
-      <tr>
-        <td colspan="4"><span id="BBlk20">TABLE 3. DSOSO DATASET CATEGORIES/TERMS</span></td>
-      </tr>
-    <thead>
-    <thead>
-      <tr>
-        <th class="f18" colspan="1"><span id="Blk">Term</span><b><sup>9</sup></b></th>
-        <th class="f18" colspan="3"><span id="Blk">Definition</span><b><sup>9</sup></b></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align:center"><span id="Blk">OCCUPANCY DATE</span></td>
-        <td style="text-align:left">This date refers to the <u>evening of the overnight period</u> being reported. The occupancy data is retrieved at 4:00 AM the <u>following morning</u> (e.g. Jan. 1<sup>st</sup>, 2024 record => data collected at 4:00 AM Jan. 2<sup>nd</sup>, 2024).</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">SERVICE USER COUNT</span></td>
-        <td style="text-align:left">The number of service users staying in an overnight program as of the occupancy time and date. Programs with no service user occupancy will not be included in reporting for that day.</td>
-      </tr>
-      <tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">PROGRAM ID</span></td>
-        <td style="text-align:left">Provides a distinct or <b>unique ID</b> of the program even if the program name changes.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">SECTOR</span></td>
-        <td style="text-align:left">A category or type of homeless shelter that is based on gender, age and household size of the service user group(s) being served at the shelter site. There are <u>currently</u> 5 shelter sectors in Toronto: <b>(i)</b> adult men, <b>(ii)</b> adult women, <b>(iii)</b> mixed adult (co-ed or all gender), <b>(iv)</b> youth, and <b>(v)</b> family.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">PROGRAM MODEL</span></td>
-        <td style="text-align:left">Basic classification scheme that divides the shelter program into two groups: <b>(i) Emergency</b> or <b>(ii) Transitional</b>. The <b>Emergency</b> program can be accessed by any individual or family experiencing homelessness with or without a referral, while the <b>Transitional</b> program provides required and/or specialized programming that can be accessed by eligible individuals and families experiencing homelessness by referral only.</td>
-      </tr>
-      <tr>
-        <td style="text-align:center"><span id="Blk">OVERNIGHT SERVICE TYPE</span></td>
-        <td style="text-align:left"> The types of overnight service being provided include: <b>(i) Shelter</b>, <b>(ii) 24-Hour Respite</b>, <b>(iii) Motel/Hotel</b>, <b>(iv) Interim Housing</b>, <b>(v) Warming Centre</b>, <b>(vi) 24-Hour Women's Drop-in</b>, and <b>(vi) Isolation/Recovery Site</b>.<br>
-<b>Shelter:</b> Supervised residential facilities that provide temporary accommodation and related support services to assist people experiencing homelessness to move into housing. Operate year-round. <b>24-Hour Respite:</b> An allied shelter service which provides essential services to individuals experiencing homelessness in an environment that prioritizes ease of access to safe indoor space. Services provided include resting spaces, meals and service referrals. Operates on a 24/7 basis. <b>Motel/Hotel:</b> A type of shelter program that provides shelter beds/rooms through contracts with hotel and motel operators, which enables the City to expand and contract emergency shelter capacity in response to demand for services. <b>Interim Housing:</b> A type of shelter program that provides interim housing shelter beds through contracts with apartment spaces. <b>Warming Centre:</b> An allied shelter service that provides immediate safe indoor space for people during extreme cold weather alerts. Facilities vary, but often include City of Toronto buildings or community recreation centres. Services vary, depending on the facility, and may include at a minimum resting spaces, snacks and referrals to emergency shelter. Operates on a 24/7 basis for the duration of an extreme cold weather alert. <b>24-Hour Women's Drop-in:</b> A type of 24-Hour Respite Site that provides services to women and transgender or gender-non-binary people who are experiencing homelessness. <b>Isolation/Recovery Site:</b> Dedicated isolation and recovery programs with medical supports for people experiencing homelessness to isolate and recover from COVID-19.</td>
-      </tr>
-      <tr>
-      <td style="text-align:center"><span id="Blk">PROGRAM AREA</span></td>
-      <td style="text-align:left">Identifies either <b>Base Shelter and Overnight Services</b> system programs, or <b>Temporary Response</b> system programs. <b>(i) Base Shelter and Overnight Services System:</b> are intended to be regular, year-round programs. <b>(ii) Base Program - Refugee:</b> are intended to be year-round programs that serve refugee and asylum claimant families and individuals. <b>(iii) Temporary Refugee Response:</b> are intended to create spaces in the overnight services system in order to support refugee and asylum claimant families and individuals. <b>(iv) COVID-19 Response:</b> Programs that are intended to create spaces in the overnight services system in order to support improved physical distancing during the COVID-19 pandemic. <b>(v) Winter Response:</b> are intended to be exclusively dedicated to the provision of additional spaces under winter services plans. Winter service planning may also add additional capacity to existing programs classified in other program areas.</td>
-      </tr>
-      <tr>
-      <td style="text-align:center"><span id="Blk">CAPACITY TYPE</span></td>
-      <td style="text-align:left">Program provides either <b>room</b> or <b>bed</b> based capacity. <b>(i) Bed Based Capacity:</b> where occupancy is measured at the bed level and typically involve common sleeping areas. <b>(ii)Room Based Capacity:</b> where occupancy is measured at the room level and is typically of family programs or hotel-based programs where sleeping rooms are not shared by people from different households.</td>
-      </tr>
-      <tr>
-      <td style="text-align:center"><span id="Blk">CAPACITY ACTUAL (BED/ROOM)</span></td>
-      <td style="text-align:left">The number of <b>beds</b> or <b>rooms</b> showing as available for occupancy in the Shelter Management Information System (<b>SMIS</b>).</td>
-      </tr>
-      <tr>
-      <td style="text-align:center"><span id="Blk">CAPACITY FUNDING (BED/ROOM) </span></td>
-      <td style="text-align:left">The number of <b>rooms</b> or <b>beds</b> that a program has been approved to provide.</td>
-      </tr>
-      <tr>
-      <td style="text-align:center"><span id="Blk">UNAVAILABLE ROOMS/BEDS</span></td>
-      <td style="text-align:left">The number of <b>beds</b> or <b>rooms</b> that are <u>not currently available</u> in a program. This can include temporarily out-of-service beds due to maintenance, repairs, renovations, outbreaks and pest control (<b>**NOTE:</b> UNAVAILABLE = CAPACITY FUNDING - CAPACITY ACTUAL).</td>
-      </tr>
-    </tbody>
-</table>
-
-<!--------------------------------------------------------->
-<!--------------------------------------------------------->
-</div>
-
-<br>
-<br>
-
 
 ### <b>Toronto CIC and TSSF Data</b>
 
@@ -1019,7 +1062,7 @@ ggdraw(Demodf5.plot) + draw_label("# Moved to Housing", x = 0.495, y = 0.285, si
 ### ***********************************************************
 
 ### Import data file
-DSOSOdt <- import(here("Datasets", "DSOSO_21Apr2024.csv"))
+DSOSOdt <- import(here("Datasets", "DSOSO_2021to4May2024.csv"))
 
 ### Change **class** of column values from *numeric* to *character* 
 ### Namely: ORG_ID, SHELTER_ID, LOCATION_ID, PROGRAM_ID
@@ -1124,13 +1167,13 @@ rm(df1, df2, df2.NA)
 
 ```
 
-<div align=center>
+<div class="DivCenter80">
 **Figure 9: GTA Shelter Population (DSOSO)**<br>
-**(Period: 2021/01/01 - 2024/04/21)**<br>
+**(Period: 2021/01/01 - 2024/05/03)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=7, fig.width=8, fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=7, fig.width=5, fig.align='center'}
 ### ***********************************************************
-### ********** GRAPH 5 - TOTAL #s vs TIME line graph **********
+### ********** GRAPH 9 - TOTAL #s vs TIME line graph **********
 ### ***********************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -1162,7 +1205,7 @@ plotResSumly
 ```
 
 </div>
-**Figure 9. Total Shelter Population within the Greater Toronto Area (GTA).** The above plot shows the total number of daily shelter users for the period spanning 2021-01-01 to 2024-04-21. The number of shelter occupants have increased by more than 63% during this time.
+**Figure 9. Total Shelter Population within the Greater Toronto Area (GTA).** The above plot shows the total number of daily shelter users for the period spanning 2021-01-01 to 2024-05-03. The number of shelter occupants have increased by more than 63% during this time.
 
 <br>
 <br>
@@ -1173,7 +1216,7 @@ plotResSumly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### *************************************************************
-### ********** GRAPH 6 - TOTAL # vs TIME (CITY FACETS) **********
+### ********** GRAPH 10 - TOTAL # vs TIME (CITY FACETS) **********
 ### *************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -1206,24 +1249,24 @@ plotCTly
 ```
 
 </div>
-**Figure 10. Shelter Population per GTA region.** The plot shows the total number of shelter users within different parts of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) for the past ~40 months (2021-01-01 to 2024-04-21). The data reveals that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph in **Figure 10**).
+**Figure 10. Shelter Population per GTA region.** The plot shows the total number of shelter users within different parts of the **GTA** (i.e. Toronto, North York, Etobicoke, Scarborough, Vaughan) for the past ~41 months (2021-01-01 to 2024-05-03). The data reveals that the vast majority of shelter users are currently being housed within Toronto and North York (see Bar graph in **Figure 10**).
 
 <br>
 <br>
 
-<div align=center>
+<div class="DivCenter80">
 **Figure 11: GTA Shelter Population (DSOSO)**<br>
-**(Regional Numbers: 2024-04-21)**<br>
+**(Regional Numbers: 2024-05-03)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, out.width='70%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=5, fig.align='center'}
 ### *********************************************************
-### ********** GRAPH 7 - BAR GRAPH TOTAL # vs CITY **********
+### ********** GRAPH 11 - BAR GRAPH TOTAL # vs CITY **********
 ### *********************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
 ### Total Population per "CITY"
-df240421 <- subset(df3.NA, OCCUPANCY_DATE == "2024-04-21")
-CityTots <- df240421 %>%
+df240503 <- subset(df3.NA, OCCUPANCY_DATE == "2024-05-03")
+CityTots <- df240503 %>%
   group_by(OCCUPANCY_DATE, CITY) %>%
   summarise(n_observ = n(), sum_Users = sum(SERVICE_USER_COUNT))
 
@@ -1250,7 +1293,7 @@ plotCityTotsly
 ```
 
 </div>
-**Figure 11. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-04-21) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.5%) and North York (18.3%) shelter the majority of homeless people, while Scarborough (8.7%), Etobicoke (3.9%), and Vaughan (0.6%) collectively house less than 14% of the homeless population.
+**Figure 11. Current Shelter Populations per GTA Region.** This bar graph shows the current (2024-05-03) number of shelter occupants within each of the designated **GTA** regions. Toronto (68.6%) and North York (18.2%) shelter the majority of homeless people, while Scarborough (8.7%), Etobicoke (3.9%), and Vaughan (0.6%) collectively house less than 14% of the homeless population.
 
 <br>
 <br>
@@ -1261,7 +1304,7 @@ plotCityTotsly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### ***************************************************************
-### ********** GRAPH 8 - TOTAL # vs TIME (SECTOR FACETS) **********
+### ********** GRAPH 12 - TOTAL # vs TIME (SECTOR FACETS) **********
 ### ***************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -1305,7 +1348,7 @@ plotSectorly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, out.width='100%', fig.align='center'}
 ### ****************************************************************
-### ******* GRAPH 9 - TOTAL # vs TIME (PROGRAM MODEL FACETS) *******
+### ******* GRAPH 13 - TOTAL # vs TIME (PROGRAM MODEL FACETS) *******
 ### ****************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -1356,7 +1399,7 @@ plotPMtotalsly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, out.width='100%', fig.align='center'}
 ### ***************************************************************
-### ******* GRAPH 10 - TOTAL # vs TIME (SERVICE TYPE FACETS) *******
+### ******* GRAPH 14 - TOTAL # vs TIME (SERVICE TYPE FACETS) *******
 ### ***************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -1364,6 +1407,8 @@ plotPMtotalsly
 df3NAservtype <- df3.NA %>%
   group_by(OCCUPANCY_DATE, SERVICE_TYPE) %>%
   summarise(n_observ = n(), sum_Users = sum(SERVICE_USER_COUNT))
+
+df3NA.3May2024 <- subset(df3NAservtype, OCCUPANCY_DATE == "2024-05-03")
 
 # anyNA(df3NAservtype)
 # anyNA(df3NAservtype$SERVICE_TYPE)
@@ -1397,7 +1442,7 @@ plotSTtotalsly
 ```
 
 </div>
-**Figure 14. Homeless Overnight Service Types within the GTA.** Homeless individuals within the **GTA** can access different types of overnight services, including: **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. There are a few other **Service Types** offered, but they are ill-defined and accessed by very few people. As of April 21<sup>st</sup> 2024 the vast majority of **Service Types** are emergency type **Shelter** (4845, or 48.9%) and **Motel/Hotel** (4461, or 45%) services. Unfortunately, services that help homeless people transition to safer and more affordable permanent housing are largely non-existent within the Toronto Shelter system.
+**Figure 14. Homeless Overnight Service Types within the GTA.** Homeless individuals within the **GTA** can access different types of overnight services, including: **(i) Shelters**, **(ii) 24-Hour Respites**, **(iii) Motels/Hotels**, **(iv) Interim Housing**, **(v) Warming Centres**, **(vi) 24-Hour Women’s Drop-ins**, and **(vii) Isolation/Recovery Sites**. There are a few other **Service Types** offered, but they are ill-defined and accessed by very few people. As of May 3<sup>rd</sup> 2024 the vast majority of **Service Types** are emergency type **Shelter** (4852, or 48.7%) and **Motel/Hotel** (4522, or 45.4%) services. Unfortunately, services that help homeless people transition to safer and more affordable permanent housing are largely non-existent within the Toronto Shelter system.
 
 <br>
 <br>
@@ -1408,7 +1453,7 @@ plotSTtotalsly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
 ### ***************************************************************
-### ******* GRAPH 11 - TOTAL # vs TIME (PROGRAM AREA FACETS) *******
+### ******* GRAPH 15 - TOTAL # vs TIME (PROGRAM AREA FACETS) *******
 ### ***************************************************************
 
 ### Use "group by" and "sum" functions to sum up observations
@@ -1456,7 +1501,7 @@ plotdf3NAPAly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width='90%', fig.align='center'}
 ### *****************************************************************
-### ** GRAPH 12 - TOTAL # for PID16011 (2035 Kennedy Rd) 2024-03-29 **
+### ** GRAPH 16 - TOTAL # for PID16011 (2035 Kennedy Rd) 2024-03-29 **
 ### *****************************************************************
 
 #### Use logic function "subset" to select SVdt rows
@@ -1539,10 +1584,10 @@ plot3bly
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='100%', fig.align='center'}
 ### *******************************************************************
-### ** GRAPH 13 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
+### ** GRAPH 17 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
 ### *******************************************************************
 plot16011 <- df3NAPID16011 %>%
-  filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-04-21") %>%
+  filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-05-03") %>%
   ggplot() +
   aes(x = OCCUPANCY_DATE,
       y = Rooms_Unavailable,
@@ -1568,7 +1613,7 @@ plot2035Kenly
 ```
 
 </div>
-**Figure 16 & 17. Homes First's Delta Hotel Shelter.** These two graphs show the number of rooms at the Delta Hotel Shelter that are either occupied (**Figure 16**) or unoccupied (**Figure 17**). Although the number of occupants have been steadily decreasing between Feb 5<sup>th</sup> to April 4<sup>th</sup>, the recent influx of refugees has rapidly corrected these falling numbers. The rapid changes in the number of people sheltered at the Delta Hotel over the past 2 months is also reflected in the number of unavailable rooms at the Delta shelter (**Figure 17**). The fitted **Loess** (**LO**cal regr**ESS**ion) curve is fairly <u>well defined</u> (i.e. residuals are fairly constant over the chosen range of x values), which suggests "*real*" trends in the data (e.g. rapid increase in # unavailable rooms between Feb 5th and April 4th, followed by a quick reversal of this trend between April 4th to present). Nevertheless, it is important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is, according to **DSOSO** records, a <u>designated</u> mixed adult (Sector) shelter that falls under the emergency COVID-19 Program. So it is by definition <u>not</u> a refugee-only shelter space. According to **Homes First**, which runs many other additional shelter and supportive housing sites, their mission is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*". However, despite the continuing rise in the number of homeless persons in Toronto (**Fig. 6**,**9**,**12**,**13**), as well as the recent influx of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) to support the Toronto shelter system, **Homes First** has unilaterally decided to transition the **Delta** Hotel Shelter to a refugee only space (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of this shelter. Many have already faced "*service restrictions*" without any appeals process. Even the newly implemented appeals process typically results in the eviction of the client at the end of the restriction period. It is important to note that during the time it takes to resolve the appeal process the client is removed from the shelter and forced to find accommodations on their own (i.e. left homeless). Homes First's refusal to consult with Delta residents about the fate of the shelter, one that directly impacts their immediate and future well being, is both imprudent and overtly punitive in nature. Many residents are afraid that they will be forced to move back onto the streets, or into some unsafe open shelter space. Many have already been severely traumatized (i.e. physically and verbally assaulted, victims of theft, witness friends and people die) by many of the current shelter providers. The lack of transparency about the fate of the Delta shelter has only heightened the resident's fears, anxiety and distrust of Homes First. This situation has only been exacerbated by the lack of available housing workers at the Delta shelter. The current drive to transition the Delta Hotel to a refugee-only shelter, at the expense of non-refugees, is perplexing given the recent influx of Federal dollars into the Toronto shelter system. Shelter spaces should be inclusive by nature, and not resort to punitive measures that divide and further traumatize the most marginalized members of our society.
+**Figure 16 & 17. Homes First's Delta Hotel Shelter.** These two graphs show the number of rooms at the Delta Hotel Shelter that are either occupied (**Figure 16**) or unoccupied (**Figure 17**). Although the number of occupants have been steadily decreasing between Feb 5<sup>th</sup> to May 3<sup>rd</sup>, the recent influx of refugees has rapidly corrected these falling numbers. The rapid changes in the number of people sheltered at the Delta Hotel over the past 2 months is also reflected in the number of unavailable rooms at the Delta shelter (**Figure 17**). The fitted **Loess** (**LO**cal regr**ESS**ion) curve is fairly <u>well defined</u> (i.e. residuals are fairly constant over the chosen range of x values), which suggests "*real*" trends in the data (e.g. rapid increase in # unavailable rooms between Feb 5th and April 4th, followed by a quick reversal of this trend between April 4th to present). Nevertheless, it is important to note that the overnight **Delta Hotel Shelter** (Program ID 16011) supervised by **Homes First** is, according to **DSOSO** records, a <u>designated</u> mixed adult (Sector) shelter that falls under the emergency COVID-19 Program. So it is by definition <u>not</u> a refugee-only shelter space. According to **Homes First**, which runs many other additional shelter and supportive housing sites, their mission is to "*develop and provide affordable, stable housing and support services to break the cycle of homelessness for people with the fewest housing options*". However, despite the continuing rise in the number of homeless persons in Toronto (**Fig. 6**,**9**,**12**,**13**), as well as the recent influx of Federal dollars (**<a class="one" href="https://www.cbc.ca/news/canada/toronto/asylum-seeker-shelter-funding-toronto-1.7102849">$162 million</a>**) to support the Toronto shelter system, **Homes First** has unilaterally decided to transition the **Delta** Hotel Shelter to a refugee only space (i.e. no consultations with residents). Apparently, in accordance with the wishes of local Ward 22 councillor Nick Mantas, the shelter is actively trying to move or evict people from the safety of this shelter. Many have already faced "*service restrictions*" without any appeals process. Even the newly implemented appeals process typically results in the eviction of the client at the end of the restriction period. It is important to note that during the time it takes to resolve the appeal process the client is removed from the shelter and forced to find accommodations on their own (i.e. left homeless). Homes First's refusal to consult with Delta residents about the fate of the shelter, one that directly impacts their immediate and future well being, is both imprudent and overtly punitive in nature. Many residents are afraid that they will be forced to move back onto the streets, or into some unsafe open shelter space. Many have already been severely traumatized (i.e. physically and verbally assaulted, victims of theft, witness friends and people die) by many of the current shelter providers. The lack of transparency about the fate of the Delta shelter has only heightened the resident's fears, anxiety and distrust of Homes First. This situation has only been exacerbated by the lack of available housing workers at the Delta shelter. The current drive to transition the Delta Hotel to a refugee-only shelter, at the expense of non-refugees, is perplexing given the recent influx of Federal dollars into the Toronto shelter system. Shelter spaces should be inclusive by nature, and not resort to punitive measures that divide and further traumatize the most marginalized members of our society.
 
 <br>
 <br>
