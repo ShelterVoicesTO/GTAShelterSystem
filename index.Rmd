@@ -1,5 +1,5 @@
 ---
-title: "Toronto Shelter System and Homeless Resources"
+title: "GTA Homeless Shelters & Resources"
 author: "V4UL"
 date: "`r Sys.Date()`"
 output: 
@@ -222,13 +222,13 @@ pacman::p_load(
 
 ```
 
-GTA Map - Homeless Resources {data-icon="ion-stats-bars"}
+HR Map {data-icon="ion-stats-bars"}
 ===================================== 
 
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### <b>Map of Homeless Resources</b>
+### <b>GTA Homless Resources (HR) Map</b>
 
 ```{r include=FALSE}
 #### read in data file
@@ -320,7 +320,7 @@ TOmap2
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### <b>Table of Homeless Resources</b>
+### <b>Table: GTA Homeless Resources (HR)</b>
 
 ```{r}
 # select columns for new df to create table
@@ -344,13 +344,13 @@ ft1
 
 <br>
 
-GTA Map - Homeless Shelters (2024-05-03) {data-icon="ion-stats-bars"}
+HS Map {data-icon="ion-stats-bars"}
 ===================================== 
 
 Column {data-width=475}
 -----------------------------------------------------------------------
 
-### <b>Map of Homeless Shelters</b>
+### <b>GTA Homeless Shelters (HS) Map (2024-05-03)</b>
 
 ```{r include=FALSE}
 #### read in data file
@@ -418,7 +418,7 @@ TSmap2
 Column {data-width=525}
 -----------------------------------------------------------------------
 
-### <b>Table of Homeless Shelters (2024-05-03)</b>
+### <b>Table: GTA Homeless Shelters (HS) (2024-05-03)</b>
 
 ```{r}
 # select columns for new df to create table
@@ -1214,7 +1214,7 @@ plotResSumly
 **Figure 10: GTA Shelter Population (DSOSO)**<br>
 **(Regional Numbers)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='85%', fig.align='center'}
 ### *************************************************************
 ### ********** GRAPH 10 - TOTAL # vs TIME (CITY FACETS) **********
 ### *************************************************************
@@ -1258,7 +1258,7 @@ plotCTly
 **Figure 11: GTA Shelter Population (DSOSO)**<br>
 **(Regional Numbers: 2024-05-03)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=5, fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=4, fig.align='center'}
 ### *********************************************************
 ### ********** GRAPH 11 - BAR GRAPH TOTAL # vs CITY **********
 ### *********************************************************
@@ -1302,7 +1302,7 @@ plotCityTotsly
 **Figure 12: GTA Shelter Population (DSOSO)**<br>
 **(Shelter Sector Numbers)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='85%', fig.align='center'}
 ### ***************************************************************
 ### ********** GRAPH 12 - TOTAL # vs TIME (SECTOR FACETS) **********
 ### ***************************************************************
@@ -1346,7 +1346,7 @@ plotSectorly
 **Figure 13: GTA Shelter Population (DSOSO)**<br>
 **(Program Model Numbers)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, out.width='100%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, out.width='80%', fig.align='center'}
 ### ****************************************************************
 ### ******* GRAPH 13 - TOTAL # vs TIME (PROGRAM MODEL FACETS) *******
 ### ****************************************************************
@@ -1397,7 +1397,7 @@ plotPMtotalsly
 **Figure 14: GTA Shelter Population (DSOSO)**<br>
 **(Service Type Numbers)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, out.width='100%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, out.width='85%', fig.align='center'}
 ### ***************************************************************
 ### ******* GRAPH 14 - TOTAL # vs TIME (SERVICE TYPE FACETS) *******
 ### ***************************************************************
@@ -1451,7 +1451,7 @@ plotSTtotalsly
 **Figure 15: GTA Shelter Population (DSOSO)**<br>
 **(Program Area Numbers)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='100%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8, out.width='85%', fig.align='center'}
 ### ***************************************************************
 ### ******* GRAPH 15 - TOTAL # vs TIME (PROGRAM AREA FACETS) *******
 ### ***************************************************************
@@ -1582,7 +1582,7 @@ plot3bly
 **Figure 17: Homes First - Mixed Adult COVID-19 Program, Delta Hotel Shelter**<br>
 **(DSOSO: # Unavailable Rooms)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='100%', fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, out.width='90%', fig.align='center'}
 ### *******************************************************************
 ### ** GRAPH 17 - TOTAL #s for PID16011 (2035 Kennedy Rd) 2024-03-29 **
 ### *******************************************************************
