@@ -472,7 +472,7 @@ Column {.tabset .tabset-fade}
 <div align=center>
 **National Service Provider List (2022)**<br>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=7, fig.align='center'}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 #### read in data file
 NSPL.df <- readr::read_csv(here("Datasets", "HPD_NSPL2022.csv"))
 
@@ -499,6 +499,10 @@ NSPL.df1 <- NSPL.df %>%
 
 NSPL.PBeds.sum <- sum(NSPL.df1$PBeds)
 NSPL.shelter.sum <- sum(NSPL.df1$n_observ)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=7, fig.align='center'}
 
 ### plot
 NSPLplot <- ggplot(NSPL.df1) + aes(x = PTCode, y = PBeds) +
@@ -598,9 +602,8 @@ CanPT.df <- rename(CanPT.df, all_of(NO.Col3))
 CanPT.pit <- subset(CanPT.df, Population == "Total, target population")
 
 CanPT.plot <- ggplot(CanPT.pit) +
-  aes(x = Date,
-      fill = Stat,
-      weight = VALUE) +
+  aes(x = Date, fill = Stat, weight = VALUE,
+      text = paste('Date: ', as.Date(Date), '<br>Stat: ', Stat, '<br>Type: ', Type, '<br>Count: ', VALUE)) +
   geom_bar(position = "dodge") +
   scale_fill_manual(values = c(`Number of beds` = "darkblue",
                                `Number of shelters` = "skyblue")) +
@@ -611,15 +614,11 @@ CanPT.plot <- ggplot(CanPT.pit) +
         plot.background = element_rect(fill = "white"),
         panel.grid.minor = element_blank(),
         legend.position = "none") +
-  facet_wrap(
-    vars(GEO),
-    scales = "free_y",
-    ncol = 3L,
-    nrow = 5L
+  facet_wrap(vars(GEO), scales = "free_y", ncol = 3L, nrow = 5L
   )
 
 ### Create Interactive Plot with "ggplotly" package
-CanPT.plotly <- ggplotly(CanPT.plot)
+CanPT.plotly <- ggplotly(CanPT.plot, tooltip = "text")
 CanPT.plotly <- CanPT.plotly %>% toWebGL()
 CanPT.plotly
 
@@ -642,28 +641,23 @@ Pit.df2.ca <- Pit.df2.ca %>% mutate(Date = lubridate::ymd(Date, truncated = 2L))
 
 ### Graph Pit df
 PitPlot <- ggplot(Pit.df2.ca) +
-  aes(x = Date,
-      group = Statistics,
-      weight = VALUE) +
-  geom_bar(position = "dodge", aes(fill=Statistics)) +
+  aes(x = Date, fill = Statistics, weight = VALUE,
+      text = paste('Date: ', as.Date(Date), '<br>Stat: ', Statistics, '<br>Count: ', VALUE)) +
+  geom_bar(position = "dodge") +
   scale_fill_manual(values = c("darkblue", "skyblue")) +
-  labs(x = "Date",
-       y = "# Beds and Shelters") +
+  labs(x = "Date", y = "# Beds and Shelters") +
   theme_bw() +
   theme(axis.title.y = element_text(size = 12L, face = "bold"),
         axis.title.x = element_text(size = 12L, face = "bold"),
         plot.background = element_rect(fill = "white"),
         panel.grid.minor = element_blank(),
         legend.position = "none") +
-  facet_wrap(vars(Stype),
-             scales = "free_y",
-             ncol = 3L, nrow = 1L)
+  facet_wrap(vars(Stype), scales = "free_y", ncol = 3L, nrow = 1L)
 
 ### Create Interactive Plot with "ggplotly" package
-PitPlotly <- ggplotly(PitPlot)
+PitPlotly <- ggplotly(PitPlot, tooltip= "text")
 PitPlotly <- PitPlotly %>% toWebGL()
 PitPlotly
-
 ```
 
 </div>
@@ -1178,14 +1172,16 @@ rm(df1, df2, df2.NA)
 
 ### Use "group by" and "sum" functions to sum up observations
 ### Total Shelter Population TIMELINE
-df3NAtotals <- df3.NA %>%
-  group_by(OCCUPANCY_DATE) %>%
+df3NAtotals <- df3.NA %>% group_by(OCCUPANCY_DATE) %>%
   summarise(n_observ = n(), sum_Users = sum(SERVICE_USER_COUNT))
 
 ###### Plot Total Shelter Resident Population TIMELINE
 plot.ResSum <- ggplot(df3NAtotals) +
-  aes(x = OCCUPANCY_DATE, y = sum_Users) +
-  geom_line(colour = "darkblue") +
+  aes(x = OCCUPANCY_DATE, y = sum_Users,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
+  geom_line(aes(group=1), colour = "darkblue") +
   labs(x = "Date",
        y = "Total Occupancy # (counts)") +
   theme_bw() +
@@ -1194,11 +1190,10 @@ plot.ResSum <- ggplot(df3NAtotals) +
         axis.title.y = element_text(size = 12L,
                                     face = "bold"),
         axis.title.x = element_text(size = 12L,
-                                    face = "bold"),
-        plot.background = element_rect(fill = "white"))
+                                    face = "bold"))
 
 ### Create Interactive Plot with "ggplotly" package
-plotResSumly <- ggplotly(plot.ResSum)
+plotResSumly <- ggplotly(plot.ResSum, tooltip = "text")
 plotResSumly <- plotResSumly %>% toWebGL()
 plotResSumly
 
@@ -1228,8 +1223,11 @@ df3NAcity <- df3.NA %>%
 ###### Plot Total Shelter Population per "CITY" Facets
 plotCT <- df3NAcity %>% filter(!(CITY %in% "")) %>%
   ggplot() +
-  aes(x = OCCUPANCY_DATE, y = sum_Users, group = CITY) +
-  geom_line(colour = "darkblue") +
+  aes(x = OCCUPANCY_DATE, y = sum_Users, group = CITY,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
+  geom_line(aes(group=1), colour = "darkblue") +
   labs(x = "Date",
        y = "Total Occupancy # (counts)") +
   theme_bw() +
@@ -1242,7 +1240,7 @@ plotCT <- df3NAcity %>% filter(!(CITY %in% "")) %>%
   facet_wrap(vars(CITY), scales = "free_y", ncol = 3L, nrow = 5L)
 
 ### Create Interactive Plot with "ggplotly" package
-plotCTly <- ggplotly(plotCT)
+plotCTly <- ggplotly(plotCT, tooltip = "text")
 plotCTly <- plotCTly %>% toWebGL()
 plotCTly
 
@@ -1275,7 +1273,10 @@ CityTotsSum <- CityTots %>% mutate(prop = 100*(sum_Users/sum(sum_Users)))
 
 ### Bar Graph (2024/03/29) = 9704 Shelter population, 136 Program IDs 
 plotCityTots <- ggplot(CityTots) +
-  aes(x = CITY, y = sum_Users) +
+  aes(x = CITY, y = sum_Users,
+      text = paste('City: ', CITY,
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
   geom_col(fill = "darkblue") +
   labs(x = "GTA Region", 
        y = "Total Occupancy # (counts)") +
@@ -1286,7 +1287,7 @@ plotCityTots <- ggplot(CityTots) +
         axis.title.x = element_text(size = 12L, face = "bold"))
 
 ### Create Interactive Plot with "ggplotly" package
-plotCityTotsly <- ggplotly(plotCityTots)
+plotCityTotsly <- ggplotly(plotCityTots, tooltip = "text")
 plotCityTotsly <- plotCityTotsly %>% toWebGL()
 plotCityTotsly
 
@@ -1316,8 +1317,12 @@ df3NAsector <- df3.NA %>%
 ###### Plot Total Shelter Population per "SECTOR" Facets
 plotSector <- df3NAsector %>% filter(!(SECTOR %in% "")) %>%
   ggplot() +
-  aes(x = OCCUPANCY_DATE, y = sum_Users, group = SECTOR) +
-  geom_line(colour = "darkblue") +
+  aes(x = OCCUPANCY_DATE, y = sum_Users, group = SECTOR,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br>Sector: ', SECTOR,
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
+  geom_line(aes(group=1), colour = "darkblue") +
   labs(x = "Date",
        y = "Total Occupancy # (counts)") +
   theme_bw() +
@@ -1330,7 +1335,7 @@ plotSector <- df3NAsector %>% filter(!(SECTOR %in% "")) %>%
   facet_wrap(vars(SECTOR), scales = "free_y", ncol = 3L, nrow = 3L)
 
 ### Create Interactive Plot with "ggplotly" package
-plotSectorly <- ggplotly(plotSector)
+plotSectorly <- ggplotly(plotSector, tooltip = "text")
 plotSectorly <- plotSectorly %>% toWebGL()
 plotSectorly
 
@@ -1366,8 +1371,12 @@ df3NAprogmodel.noNA2 <- na.omit(df3NAprogmodel)
 ###### Plot Total Shelter Population per "PROGRAM MODEL" Facets
 plotPMtotals <- df3NAprogmodel.noNA %>% filter(!(PROGRAM_MODEL %in% "")) %>%
   ggplot() +
-  aes(x = OCCUPANCY_DATE, y = sum_Users, group = PROGRAM_MODEL) +
-  geom_line(colour = "darkblue") +
+  aes(x = OCCUPANCY_DATE, y = sum_Users, group = PROGRAM_MODEL,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br>Program: ', PROGRAM_MODEL,
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
+  geom_line(aes(group=1), colour = "darkblue") +
   labs(x = "Date",
        y = "Total Occupancy # (counts)") +
   theme_bw() +
@@ -1381,7 +1390,7 @@ plotPMtotals <- df3NAprogmodel.noNA %>% filter(!(PROGRAM_MODEL %in% "")) %>%
              scales = "free_y", ncol = 3L, nrow = 3L)
 
 ### Create Interactive Plot with "ggplotly" package
-plotPMtotalsly <- ggplotly(plotPMtotals)
+plotPMtotalsly <- ggplotly(plotPMtotals, tooltip = "text")
 plotPMtotalsly <- plotPMtotalsly %>% toWebGL()
 plotPMtotalsly
 
@@ -1420,8 +1429,12 @@ df3NAservtype.noNA <- df3NAservtype[complete.cases(df3NAservtype), ]
 ###### Plot Total Shelter Population per "SERVICE TYPE" Facets
 plotSTtotals <- df3NAservtype.noNA %>% filter(!(SERVICE_TYPE %in% "")) %>%
   ggplot() +
-  aes(x = OCCUPANCY_DATE, y = sum_Users, group = SERVICE_TYPE) +
-  geom_line(colour = "darkblue") +
+  aes(x = OCCUPANCY_DATE, y = sum_Users, group = SERVICE_TYPE,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br>Type: ', SERVICE_TYPE,
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
+  geom_line(aes(group=1), colour = "darkblue") +
   labs(x = "Date",
        y = "Total Occupancy # (counts)") +
   theme_bw() +
@@ -1435,7 +1448,7 @@ plotSTtotals <- df3NAservtype.noNA %>% filter(!(SERVICE_TYPE %in% "")) %>%
              scales = "free_y", ncol = 3L, nrow = 4L)
 
 ### Create Interactive Plot with "ggplotly" package
-plotSTtotalsly <- ggplotly(plotSTtotals)
+plotSTtotalsly <- ggplotly(plotSTtotals, tooltip = "text")
 plotSTtotalsly <- plotSTtotalsly %>% toWebGL()
 plotSTtotalsly
 
@@ -1468,8 +1481,12 @@ df3NAPA.noNA <- df3NAPA[complete.cases(df3NAPA), ]
 ### Plot "Program Area" Facets
 plotdf3NAPA <- df3NAPA.noNA %>% filter(!(PROGRAM_AREA %in% "")) %>%
   ggplot() +
-  aes(x = OCCUPANCY_DATE, y = sum_Users) +
-  geom_line(colour = "darkblue") +
+  aes(x = OCCUPANCY_DATE, y = sum_Users,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br>Program Area: ', PROGRAM_AREA,
+                   '<br># Shelters: ', n_observ,
+                   '<br># Shelter Occupants: ', sum_Users)) +
+  geom_line(aes(group=1), colour = "darkblue") +
   labs(x = "Date",
        y = "Occupancy # (counts)") +
   theme_bw() +
@@ -1483,7 +1500,7 @@ plotdf3NAPA <- df3NAPA.noNA %>% filter(!(PROGRAM_AREA %in% "")) %>%
              scales = "free_y", ncol = 3L, nrow = 2L)
 
 ### Create Interactive Plot with "ggplotly" package
-plotdf3NAPAly <- ggplotly(plotdf3NAPA)
+plotdf3NAPAly <- ggplotly(plotdf3NAPA, tooltip = "text")
 plotdf3NAPAly <- plotdf3NAPAly %>% toWebGL()
 plotdf3NAPAly
 
@@ -1512,63 +1529,27 @@ df3NAPID16011 <- subset(df3.NA, PROGRAM_ID == "16011")
 plot3 <- ggplot(data = df3NAPID16011,     # data set
   mapping = aes(                          # map aesthetics
     x = OCCUPANCY_DATE,                   # map x y axis values
-    y = SERVICE_USER_COUNT)) +
-  geom_point(color = "darkblue", size = 2, alpha = 0.4)+
+    y = SERVICE_USER_COUNT,
+    text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                 '<br>Address: ', LOCATION_ADDRESS,
+                 '<br>City: ', CITY,
+                 '<br># Shelter Occupants: ', SERVICE_USER_COUNT))) +
+  geom_point(aes(group=1), color = "darkblue", size = 2, alpha = 0.4)+
   labs(x = "Occupancy Date",
        y = "Occupancy # (counts)") +
   theme_bw()
 
 plot3b <- plot3 +     # theme adjustments
   theme_bw() +
-  theme(
-    plot.title = element_text(size = 14L,
-                              face = "bold", hjust = 0.5, vjust = 0),
+  theme(plot.title = element_text(size = 14L,
+                                  face = "bold", hjust = 0.5, vjust = 0),
     axis.text.x = element_text(size = 10L),
     axis.text.y = element_text(size = 10L),
     axis.title = element_text(size = 12L),
     plot.background = element_rect(fill = "white"))
 
-plot4 <- ggplot(data = df3NAPID16011,     # data set
-  mapping = aes(                          # map aesthetics
-    x = OCCUPANCY_DATE,                   # map x y axis values
-    y = Rooms_Unavailable)) +
-  geom_point(color = "darkblue", size = 2, alpha = 0.2)+
-  labs(x = "Occupancy Date",
-       y = "# Rooms Unavailable",
-       title = "Figure 9: Homes First Mixed Adult Delta Hotel Shelter",
-       subtitle = "(Unavailable Room Counts)",
-       caption = stringr::str_glue("Current: {max(df3NAPID16011$OCCUPANCY_DATE, na.rm=T)}")) +
-  theme_bw()
-
-plot4b <- plot4 + theme_classic() +
-  theme(plot.title = element_text(size = 14L),         # theme adjustments
-    plot.caption = element_text(size = 8L, hjust = 0), # left-align caption
-    plot.subtitle = element_text(face = "italic"),
-    axis.text.x = element_text(size = 10L),
-    axis.text.y = element_text(size = 10L),
-    axis.title = element_text(size = 12L),             # adjusts axes titles
-    plot.background = element_rect(fill = "white"))  
-
-# Plot3b with marginal histograms
-plot3bm <- ggMarginal(
-  plot3b,                         # add marginal histograms
-  margins = "y",
-  size = 3,
-  type = "histogram",             # specify histograms
-  fill = "lightblue",             # bar fill
-  yparams = list(binwidth = 2))   # bin width for y-axis marginal
-
-# Plot4b with marginal histograms
-plot4bm <- ggMarginal(
-  plot4b,                         # add marginal histograms
-  margins = "y",
-  size = 3,
-  type = "histogram",             # specify histograms
-  fill = "lightblue",             # bar fill
-  yparams = list(binwidth = 1))   # bin width for y-axis marginal
-
 ### Create Interactive Plot with "ggplotly" package
-plot3bly <- ggplotly(plot3b)
+plot3bly <- ggplotly(plot3b, tooltip = "text")
 plot3bly <- plot3bly %>% toWebGL()
 plot3bly
 
@@ -1589,11 +1570,12 @@ plot3bly
 plot16011 <- df3NAPID16011 %>%
   filter(OCCUPANCY_DATE >= "2024-01-04" & OCCUPANCY_DATE <= "2024-05-03") %>%
   ggplot() +
-  aes(x = OCCUPANCY_DATE,
-      y = Rooms_Unavailable,
-      colour = Room_Capacity) +
+  aes(x = OCCUPANCY_DATE, y = Rooms_Unavailable, colour = Room_Capacity,
+      text = paste('Date: ', as.Date(OCCUPANCY_DATE),
+                   '<br>Capacity: ', Room_Capacity,
+                   '<br># Unavailable Rooms: ', Rooms_Unavailable)) +
   geom_point(shape = "circle", size = 3L) +
-  geom_smooth(span = 0.5) +
+  geom_smooth(aes(group=1), span = 0.5) +
   scale_color_distiller(palette = "Blues", direction = 1) +
   labs(x = "Date",
        y = "Unavailable Rooms (counts)") +
@@ -1606,7 +1588,7 @@ plot16011 <- df3NAPID16011 %>%
         legend.position = c(0.99,0.1))
 
 ### Create Interactive Plot with "ggplotly" package
-plot2035Kenly <- ggplotly(plot16011)
+plot2035Kenly <- ggplotly(plot16011, tooltip = "text")
 plot2035Kenly <- plot2035Kenly %>% toWebGL()
 plot2035Kenly
 
